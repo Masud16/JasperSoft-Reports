@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="employee_wise_daily_punch_status" pageWidth="842" pageHeight="667" orientation="Landscape" columnWidth="822" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" uuid="351aba94-c09e-4f5c-a73e-093e7bbbb289">
+	<property name="ireport.zoom" value="1.9965000000000037"/>
+	<property name="ireport.x" value="546"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_EMP_CODES" class="java.util.Collection">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_START_DATE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_END_DATE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_IS_ACKNOWLEDGE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_JOB_LOCATION_ID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_ALL_ORG_ID" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_OPERATING_UNIT_ID" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_DESIGNATION_VIEW" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D://REPORTS//HRMS_REPORTS_sahee_mam_new//ALL_REPORTS//"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT G.EMP_CODE,
+         E.EMP_NAME,
+         CASE
+            WHEN $P{P_DESIGNATION_VIEW}  = '1' THEN  (E.DESIGNATION)
+            ELSE '##.##'
+         END
+            DESIGNATION,
+         E.DEPARTMENT_TITLE,
+         E.SECTION_TITLE,
+         E.SUB_SECTION_TITLE,
+         E.TEAM_TITLE,
+         E.SUB_TEAM_TITLE,
+         E.OPERATING_UNIT_TITLE,
+         E.LOCATION_TITLE,
+         (SELECT TITLE
+           FROM HR_TL_SHFT_DTL
+          WHERE ID = E.HR_TL_SHFT_DTL_ID)
+          SHIFT_TITLE,
+         G.ON_DATE,
+         G.OUT_TIME,
+         G.IN_TIME,
+         G.OUT_MIN,
+         COALESCE (G.APRVL_STATUS, 'NOT SUBMITTED') APRVL_STATUS,
+         G.CAUSE_BY,
+         G.OUT_PURPOSE,
+         G.REMARKS,
+         CASE WHEN G.IS_INVOKED = True THEN 'SPL' END IS_SPL
+    FROM PROC_OUT_GATE_OUT G, hr_cr_EMP_PRIMARY_ASSGNMNT E
+   WHERE E.ID = G.HR_CR_EMP_ID
+        AND  $X{IN,E.emp_code, P_EMP_CODES}           
+        AND G.ON_DATE BETWEEN TO_DATE ($P{P_START_DATE},'yyyy-MM-dd') AND TO_DATE ($P{P_END_DATE} ,'yyyy-MM-dd') 
+        AND ($P{P_JOB_LOCATION_ID} IS NULL
+              OR E.JOB_LOCATION_ID = $P{P_JOB_LOCATION_ID})
+ORDER BY 12, 10, 9, 3, 1]]>
+	</queryString>
+	<field name="emp_code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_code"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proc_out_gate_out"/>
+	</field>
+	<field name="emp_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="designation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="designation"/>
+		<property name="com.jaspersoft.studio.field.label" value="designation"/>
+	</field>
+	<field name="department_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="sub_section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="sub_section_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="team_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="team_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="team_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="sub_team_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_team_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="sub_team_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="operating_unit_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="operating_unit_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="operating_unit_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="location_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="location_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="location_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="shift_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="shift_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="shift_title"/>
+	</field>
+	<field name="on_date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="on_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="on_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proc_out_gate_out"/>
+	</field>
+	<field name="out_time" class="java.sql.Time">
+		<property name="com.jaspersoft.studio.field.name" value="out_time"/>
+		<property name="com.jaspersoft.studio.field.label" value="out_time"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proc_out_gate_out"/>
+	</field>
+	<field name="in_time" class="java.sql.Time">
+		<property name="com.jaspersoft.studio.field.name" value="in_time"/>
+		<property name="com.jaspersoft.studio.field.label" value="in_time"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proc_out_gate_out"/>
+	</field>
+	<field name="out_min" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="out_min"/>
+		<property name="com.jaspersoft.studio.field.label" value="out_min"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proc_out_gate_out"/>
+	</field>
+	<field name="aprvl_status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="aprvl_status"/>
+		<property name="com.jaspersoft.studio.field.label" value="aprvl_status"/>
+	</field>
+	<field name="cause_by" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="cause_by"/>
+		<property name="com.jaspersoft.studio.field.label" value="cause_by"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proc_out_gate_out"/>
+	</field>
+	<field name="out_purpose" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="out_purpose"/>
+		<property name="com.jaspersoft.studio.field.label" value="out_purpose"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proc_out_gate_out"/>
+	</field>
+	<field name="remarks" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="remarks"/>
+		<property name="com.jaspersoft.studio.field.label" value="remarks"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="proc_out_gate_out"/>
+	</field>
+	<field name="is_spl" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="is_spl"/>
+		<property name="com.jaspersoft.studio.field.label" value="is_spl"/>
+	</field>
+	<variable name="Count" class="java.lang.String" calculation="Count"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" x="0" y="35" width="822" height="15" uuid="1cccd8fb-8802-4388-9b3a-577eb3b1de03"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Main Gate IN/OUT Details Report"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="50" width="822" height="13" uuid="77df2e02-013b-474a-894d-479ce2cf03e1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Form Date : "+$P{P_START_DATE}+" To Date : "+$P{P_END_DATE}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="32" width="822" height="1" uuid="ef87b2ac-cf39-40d0-9d74-ec3c61921b36"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<subreport>
+				<reportElement x="115" y="0" width="200" height="30" uuid="6a34b24a-a70a-4398-90ed-fff0c91a5675"/>
+				<subreportParameter name="P_EMP_CODES">
+					<subreportParameterExpression><![CDATA[$P{P_EMP_CODES}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"subheader_2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="16">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="-1" y="4" width="412" height="9" uuid="a0bfc657-b1f7-47db-a51d-578899645bbf"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Print Date and Time: "+(new SimpleDateFormat("EEEEE, d MMMMM yyyy hh:mm:ss aaa")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="25" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="22475bee-8c67-438e-a0af-d9e1275deb69"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Sl]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="25" y="0" width="45" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="34ba9d2b-b2b0-47aa-a433-8db6931ec372"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Emp ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="70" y="0" width="70" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="cc7b910c-aac4-4110-81dd-a689f4c6664c"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Emp Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="512" y="0" width="56" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="c9335f17-3280-46fb-bea9-a5e994cfc130"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[OUT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="568" y="0" width="56" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="dbabfe36-2b50-4faf-af3e-5034e1c197bd"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[IN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="624" y="0" width="33" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="0192d4ea-2030-4ec8-8f78-7a7b7a8e9a66"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[OUT Minutes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="738" y="0" width="84" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="fdec52d8-0ae5-4613-9da2-daea7093b9c1"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Remarks]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="692" y="0" width="46" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="9d384dff-21f0-4df4-8840-2d0b7e8cd012"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Out Purpose]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="140" y="0" width="66" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="bb5a578c-378f-4c72-87d0-5e6f178c8b49"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Designation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="465" y="0" width="47" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="bb5a578c-378f-4c72-87d0-5e6f178c8b49"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Shift]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="418" y="0" width="47" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="fbab6ec6-2068-4fcc-8235-8d2585dababe"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="206" y="0" width="49" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="cc7b910c-aac4-4110-81dd-a689f4c6664c"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="255" y="0" width="49" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="3afdb01a-f816-4e39-9262-beed98578b1e"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Section]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="374" y="0" width="44" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="9151ff32-b933-4170-88f0-ff8104d83f24"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Aproval Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="304" y="0" width="49" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="5c4674bb-25f2-4a06-a77a-3f335ae0415d"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Sub Section]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="353" y="0" width="21" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="de9503d4-cfc1-4636-aaa8-c9c2adbc9b68"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Is SPL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="657" y="0" width="35" height="29" forecolor="#080707" backcolor="#D1D0CE" uuid="7d8b44e7-26da-4dc3-84f2-3a4c6ac2a759"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Actual Out Min]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="###0" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="25" height="20" uuid="2d895c9d-46ff-4500-83e4-f005ed691214"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="0" width="45" height="20" uuid="40d1ee93-0bb0-4476-acb8-2b8adf90dded"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_code}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="70" y="0" width="70" height="20" uuid="8cfdaa23-a2f4-4478-8c3b-6ce29c5a1cb0"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="h:mm:ss a" isBlankWhenNull="true">
+				<reportElement x="512" y="0" width="56" height="10" uuid="097433f2-7d05-40e9-ae01-12b7c9a62b58"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{out_time}]]></textFieldExpression>
+			</textField>
+			<textField pattern="h:mm:ss a" isBlankWhenNull="true">
+				<reportElement x="568" y="0" width="56" height="10" uuid="3f23418b-c520-44ef-b6ba-510c95485e15"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{in_time}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="140" y="0" width="66" height="20" uuid="681a21f7-8e14-4222-93c5-a7e97cade6c8"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="7" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="568" y="10" width="56" height="10" uuid="cdc8933f-546d-455d-8328-4f9c69e9484b"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{on_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="512" y="10" width="56" height="10" uuid="f9301fed-e42e-4f75-b1eb-412fa56712d5"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{on_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="738" y="0" width="84" height="20" uuid="f98e9822-abd7-4a59-a917-7be2c7f076cf"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{remarks}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="692" y="0" width="46" height="20" uuid="0938fd0c-4ccc-4da1-b94a-3f6291ca7e4c"/>
+				<box rightPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cause_by}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="465" y="0" width="47" height="20" uuid="00d7e627-3744-4d2e-8fb6-5624f1f8d126"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{shift_title}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="418" y="0" width="47" height="20" uuid="3a7496be-11e9-4cb8-9943-598c75d56357"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="7" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{on_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="206" y="0" width="49" height="20" uuid="307c1906-b2c9-48ff-b925-5d26a25cfccc"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{department_title}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="624" y="0" width="33" height="20" uuid="b32f56ed-0a44-4c5f-a914-9b82bc25f809"/>
+				<box rightPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{out_min}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="255" y="0" width="49" height="20" uuid="9a8e2ff5-2365-4773-a2a4-764b8fb81914"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section_title}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="374" y="0" width="44" height="20" uuid="bb383a57-49c8-4ea3-ba24-005f062e55de"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aprvl_status}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="304" y="0" width="49" height="20" uuid="4830c194-0ffb-4985-801f-b76b109fac9e"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sub_section_title}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="353" y="0" width="21" height="20" uuid="5ea94c43-612d-4474-ba2c-1e82a4f653fb"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{is_spl}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="657" y="0" width="35" height="20" uuid="ce3bebb3-833d-44c8-936f-32406ff0b8de"/>
+				<box rightPadding="3">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27">
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="1" y="11" width="278" height="14" uuid="cb085da5-1d02-40a2-a029-e496655ff300"/>
+				<box leftPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Design and developed by: Walton Digi-Tech Ind. Ltd.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="664" y="10" width="128" height="17" uuid="2e130af2-438a-45f4-afef-7a8323cd3872">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="792" y="10" width="30" height="17" uuid="69dc9f30-b5bd-408e-a515-842b4dfd5f35"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="9" width="822" height="1" uuid="111689d8-d9cd-4d9b-b252-24685c8f0764"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

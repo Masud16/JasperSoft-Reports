@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="combo_report_sheet" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c98288a8-57b7-41b1-ac2b-0a6a6518506c">
+	<property name="ireport.zoom" value="1.8150000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_REPORT_NAME" class="java.lang.String">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_EMP_CODES" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_START_DATE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_END_DATE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_DESIGNATION_VIEW" class="java.lang.String">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D://REPORTS//HRMS_REPORTS_sahee_mam_new//ALL_REPORTS//"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+  CASE WHEN  $P{P_REPORT_NAME}  = '0' THEN 'AIT' 
+  WHEN $P{P_REPORT_NAME} = '1' THEN 'Absent Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '2' THEN 'Adjustment Allowance' 
+  WHEN $P{P_REPORT_NAME}  = '3' THEN 'Adjustment Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '4' THEN 'Cash Advance' 
+  WHEN $P{P_REPORT_NAME}  = '5' THEN 'CC TV Punishment' 
+  WHEN $P{P_REPORT_NAME}  = '6' THEN 'Consolidated' 
+  WHEN $P{P_REPORT_NAME}  = '7' THEN 'Conveyance Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '8' THEN 'Donation' 
+  WHEN $P{P_REPORT_NAME}  = '9' THEN 'Food' 
+  WHEN $P{P_REPORT_NAME}  = '10' THEN 'Gross' 
+  WHEN $P{P_REPORT_NAME}  = '11' THEN 'House Rent Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '12' THEN 'Loan' 
+  WHEN $P{P_REPORT_NAME}  = '13' THEN 'Payable Amount' 
+  WHEN $P{P_REPORT_NAME}  = '14' THEN 'Other Allowance' 
+  WHEN $P{P_REPORT_NAME}  = '15' THEN 'Other Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '16' THEN 'Penalty Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '17' THEN 'Punishment' 
+  WHEN $P{P_REPORT_NAME}  = '18' THEN ' Revenue Stamp' 
+  WHEN $P{P_REPORT_NAME}  = '19' THEN 'T Shirt' 
+  WHEN $P{P_REPORT_NAME}  = '20' THEN 'Mobile Bill' 
+  WHEN $P{P_REPORT_NAME}  = '21' THEN 'Bundle Package' 
+  WHEN $P{P_REPORT_NAME}  = '22' THEN 'Safety Shoe' 
+  WHEN $P{P_REPORT_NAME} = '23' THEN '3G Package' 
+  WHEN $P{P_REPORT_NAME}  = '24' THEN 'GYM Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '25' THEN 'Total Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '26' THEN 'Bill Adjustment' 
+  WHEN $P{P_REPORT_NAME}  = '27' THEN 'Procurement Advance Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '28' THEN 'Advance (Misc.) Expense Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '29' THEN 'Travelling And Tour Advance Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '30' THEN 'Laid Off Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '31' THEN 'WOPL Deduction' 
+  WHEN $P{P_REPORT_NAME}  = '32' THEN 'Basic Pay' 
+  WHEN $P{P_REPORT_NAME}  = '33' THEN 'Personal Car Use (Excess)' 
+  WHEN $P{P_REPORT_NAME}  = '34' THEN 'Provident Fund' ELSE '' 
+  END || ' For the Month of' REPORT_NAME, 
+  EMP_CODE, 
+  EMP_NAME, 
+  CASE WHEN $P{P_DESIGNATION_VIEW}  = '1' THEN (DESIGNATION) ELSE '##.##' END DESIGNATION, 
+  FROM_DATE, 
+  TO_DATE, 
+  P.OU_TITLE, 
+  P.DEPARTMENT_TITLE, 
+  (
+    (
+      SELECT 
+        TITLE 
+      FROM 
+        ALKP 
+      WHERE 
+        ID = P.JOB_LOCATION_ID
+    )
+  ) LOCATION, 
+  P.SECTION_TITLE, 
+  CASE WHEN $P{P_REPORT_NAME} = '0' then PRL_ELMNTAIT 
+  WHEN $P{P_REPORT_NAME} = '1' THEN PRL_ELMNT_ABSENT_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '2' THEN ADJUSTMENT_ALLOWANCE 
+  WHEN $P{P_REPORT_NAME} = '3' THEN ADJUSTMENT_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '4' THEN PRL_ELMNT_CASH_ADVANCE 
+  WHEN $P{P_REPORT_NAME} = '5' THEN PRL_ELMNT_CC_TV_PUNISHMENT 
+  WHEN $P{P_REPORT_NAME} = '6' THEN PRL_ELMNT_CONSOLIDATED 
+  WHEN $P{P_REPORT_NAME} = '7' THEN PRL_ELMNT_CONVEYANCE_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '8' THEN PRL_ELMNT_DONATION 
+  WHEN $P{P_REPORT_NAME} = '9' THEN PRL_ELMNT_FOOD_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} ='10' THEN GROSS_CAL 
+  WHEN $P{P_REPORT_NAME} = '11' THEN PRL_ELMNT_HOUSE_RENT 
+  WHEN $P{P_REPORT_NAME} = '12' THEN PRL_ELMNT_LOAN 
+  WHEN $P{P_REPORT_NAME} = '13' THEN NET_PAYABLE_AMOUNT 
+  WHEN $P{P_REPORT_NAME} = '14' THEN OTHER_ALLOWANCE 
+  WHEN $P{P_REPORT_NAME} = '15' THEN PRL_ELMNT_OTHER_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '16' THEN PRL_ELMNT_PENALTY_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '17' THEN PRL_ELMNT_PUNISHMENT 
+  WHEN $P{P_REPORT_NAME} = '18' THEN PRL_ELMNT_REVENUE_STAMP 
+  WHEN $P{P_REPORT_NAME} = '19' THEN PRL_ELMNT_T_SHIRT 
+  WHEN $P{P_REPORT_NAME} = '20' THEN PRL_ELMNT_MOBILE_BIL 
+  WHEN $P{P_REPORT_NAME} ='21' THEN PRL_ELMNT_SAFTY_SHOE_ALT 
+  WHEN $P{P_REPORT_NAME} = '22' THEN PRL_ELMNT_ABSENT_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '23' THEN PRL_ELMNT3G_PKG 
+  WHEN $P{P_REPORT_NAME} = '24' THEN PRL_ELMNT_GYM_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '25' THEN TOTAL_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '26' THEN PRL_ELMNT_BILL_ADJUSTMENT 
+  WHEN $P{P_REPORT_NAME} = '27' THEN PROCUREMENT_ADVANCE_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '28' THEN ADVANCE_MISC_EXPENSE_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '29' THEN TOUR_ADVANCE_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '30' THEN PRL_ELMNT_LAID_OFF_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '31' THEN PRL_ELMNT_WOPL_DEDUCTION 
+  WHEN $P{P_REPORT_NAME} = '32' THEN PRL_ELMNT_BASIC 
+  WHEN $P{P_REPORT_NAME} = '33' THEN PRL_ELMNT_PERSONAL_CAR_USE 
+  WHEN $P{P_REPORT_NAME} = '34' THEN PRL_ELMNTRPF ELSE '0' 
+  END AMOUNT 
+FROM 
+  PRL_SAL_TBL P 
+WHERE 
+  EMP_CODE =  $P{P_EMP_CODES} 
+  AND (
+    FROM_DATE BETWEEN TO_DATE( $P{P_START_DATE} ,'YYYY-MM-DD')
+    AND TO_DATE($P{P_START_DATE} ,'YYYY-MM-DD')
+  ) 
+  AND (
+    TO_DATE BETWEEN TO_DATE( $P{P_END_DATE} ,'YYYY-MM-DD') 
+    AND TO_DATE($P{P_END_DATE} ,'YYYY-MM-DD')
+  ) 
+ORDER BY 
+  P.DEPARTMENT_TITLE, 
+  (
+    CASE WHEN EMP_CODE LIKE '%A-%' THEN (
+      REPLACE(EMP_CODE, 'A-', '')
+    ) WHEN EMP_CODE LIKE '%D-%' THEN (
+      REPLACE(EMP_CODE, 'D-', '')
+    ) WHEN EMP_CODE LIKE '%C-%' THEN (
+      REPLACE(EMP_CODE, 'C-', '')
+    ) WHEN EMP_CODE LIKE '%I-%' THEN (
+      REPLACE(EMP_CODE, 'I-', '')
+    ) WHEN EMP_CODE LIKE '%M%' THEN (
+      REPLACE(EMP_CODE, 'M', '')
+    ) ELSE (EMP_CODE) END
+  )]]>
+	</queryString>
+	<field name="report_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="report_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="report_name"/>
+	</field>
+	<field name="emp_code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_code"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="emp_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="designation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="designation"/>
+		<property name="com.jaspersoft.studio.field.label" value="designation"/>
+	</field>
+	<field name="from_date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="from_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="from_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="to_date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="to_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="to_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="ou_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ou_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="ou_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="department_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="location" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="location"/>
+		<property name="com.jaspersoft.studio.field.label" value="location"/>
+	</field>
+	<field name="section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="amount" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="amount"/>
+		<property name="com.jaspersoft.studio.field.label" value="amount"/>
+	</field>
+	<variable name="EMP_NAME" class="java.math.BigDecimal" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{emp_name}]]></variableExpression>
+	</variable>
+	<variable name="T_AMOUND" class="java.lang.String" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<variable name="AMOUNT_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<variable name="EMP_CODE_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{emp_code}]]></variableExpression>
+	</variable>
+	<variable name="EMP_CODE_2" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{emp_code}]]></variableExpression>
+	</variable>
+	<variable name="AMOUNT_4" class="java.math.BigDecimal" resetType="Group" resetGroup="department" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<group name="department">
+		<groupExpression><![CDATA[$F{department_title}]]></groupExpression>
+		<groupHeader>
+			<band height="23">
+				<textField>
+					<reportElement x="2" y="0" width="554" height="23" uuid="4fa9573b-8821-429d-a4d5-791c2a619fa9"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Department : "+$F{department_title}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="23">
+				<textField pattern="###0" isBlankWhenNull="true">
+					<reportElement x="449" y="4" width="106" height="16" uuid="6b507f9c-4aa8-4191-98c1-dd662cec0580"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{AMOUNT_4}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="162" y="4" width="285" height="16" uuid="366e771b-5425-43d3-b034-a6b60f08d51f"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{department_title}+" Department Total: "]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="25" width="555" height="13" uuid="3e0ff480-ca9d-474f-ab41-ef6ef9988a82"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[All Reports]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="1" y="23" width="554" height="1" uuid="b4a077c0-c61d-4269-8bad-f797f117b55e"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<subreport>
+				<reportElement x="-18" y="0" width="555" height="20" uuid="4afed692-7795-4d28-a8a5-1c4720318726"/>
+				<subreportParameter name="P_EMP_CODES">
+					<subreportParameterExpression><![CDATA[$P{P_EMP_CODES}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"subheader.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="0" width="554" height="17" uuid="a8884290-32a5-41a2-9438-446c5dbdd6fa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{report_name}+" "+(new SimpleDateFormat("MMM-YYYY")).format($F{from_date})]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="-1" y="28" width="412" height="9" uuid="29049194-a6b6-42bc-abb6-da81e27b8a15"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Print Date and Time: "+(new SimpleDateFormat("EEEEE, d MMMMM yyyy hh:mm:ss aaa")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="58" y="1" width="77" height="16" forecolor="#080707" backcolor="#D1D0CE" uuid="a89e0849-d484-4982-9371-7e03af64aa5f"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="135" y="1" width="174" height="16" forecolor="#080707" backcolor="#D1D0CE" uuid="c191ad44-f22b-47ad-bb8e-e769229999f7"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Employee Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="309" y="1" width="139" height="16" forecolor="#080707" backcolor="#D1D0CE" uuid="7819d70a-3d6c-4899-9043-9d4abcd279ea"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Designation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="448" y="1" width="107" height="16" forecolor="#080707" backcolor="#D1D0CE" uuid="f68c1155-db4d-4928-9604-9a39257b1a64"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="1" width="58" height="16" forecolor="#080707" backcolor="#D1D0CE" uuid="6f3f6974-ebf0-4bdb-bc29-d65cc47a42e1"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#080707"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[SL No.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="57" height="16" uuid="c649f37f-4af3-4262-b7f6-31fed8aa1f16"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="135" y="0" width="174" height="16" uuid="3fa81165-1f0d-4c82-9bb5-407df1d22ddb"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="309" y="0" width="139" height="16" uuid="9b76aab9-a499-4ffa-b465-d8657db94db8"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0" isBlankWhenNull="true">
+				<reportElement x="448" y="0" width="107" height="16" uuid="2fa5469b-082f-41bf-9a60-5a627a2946f1"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="0" width="78" height="16" uuid="7efabbbd-b13f-41b9-8267-9db49aee96e0"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_code}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="26" splitType="Stretch">
+			<line>
+				<reportElement x="1" y="0" width="554" height="1" uuid="13377453-8f8f-4cb8-9b91-0702e2c5c84a"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="410" y="0" width="128" height="17" uuid="7e2612d3-7fd0-472d-9276-e041e17d346d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="1" y="5" width="278" height="14" uuid="5d55aa77-667a-4a06-a9fc-be3b6693883c"/>
+				<box leftPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Design and developed by: Walton Digi-Tech Ind. Ltd.]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="538" y="0" width="16" height="17" uuid="8043c75a-9c4d-431c-b24d-ffdcd94d04ce"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="372" y="2" width="77" height="20" uuid="14cbf3cc-9c2f-48a5-a895-97e69cbd3393"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Grand Total : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="2" width="91" height="20" uuid="9d36c12f-4149-4492-bf2c-7925d268aabf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Total Employee :--]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="128" y="2" width="48" height="20" uuid="53562b9b-036f-45dc-a45b-ca8620d5d194"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Persons]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="0" y="1" width="448" height="20" uuid="5cf0b1f1-8bb5-4921-9f2f-bd16f477cee2"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textField>
+					<reportElement x="92" y="0" width="36" height="21" uuid="d5d9665f-7dae-4314-94c1-0cf89d2f2b1c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{EMP_CODE_2}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField pattern="###0" isBlankWhenNull="true">
+				<reportElement x="448" y="1" width="107" height="21" uuid="f80eb582-ae2d-44a4-9018-3de6cfd87f3b"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{AMOUNT_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aplc_joining_letter" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6eb35164-d4e1-4925-8b63-c273009f16da">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_APLC_CODE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+  CODE, 
+  SL_NO, 
+  TITLE, 
+  national_identity_number, 
+  MOB_CODE, 
+  EMAIL, 
+  FATHER_NAME, 
+  MOTHER_NAME, 
+  SALARY, 
+  fx_numtowords(cast(SALARY as integer)) IN_WORD,
+  SPOUSE_NAME, 
+  permanent_address ADDRSS_PRMNT_VILL, 
+  ADDRSS_PRMNT_PO, 
+  (JOINING_DATE + INTERVAL '30 days') MON_AFTR_JOIN, 
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      ALL_LOC 
+    WHERE 
+      ID = A.ALL_LOC_ADDRSS_PRMNT_ID
+  ) ADDRSS_PRMNT_PS, 
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      ALL_LOC 
+    WHERE 
+      ID =(
+        SELECT 
+          PARENT_ID 
+        FROM 
+          ALL_LOC 
+        WHERE 
+          ID = A.ALL_LOC_ADDRSS_PRMNT_ID
+      )
+  ) ADDRSS_PRMNT_DIST, 
+  present_address ADDRSS_PRSNT_VILL, 
+  ADDRSS_PRSNT_PO, 
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      ALL_LOC 
+    WHERE 
+      ID = A.ALL_LOC_ADDRSS_PRSNT_ID
+  ) ADDRSS_PRSNT_PS, 
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      ALL_LOC 
+    WHERE 
+      ID =(
+        SELECT 
+          PARENT_ID 
+        FROM 
+          ALL_LOC 
+        WHERE 
+          ID = A.ALL_LOC_ADDRSS_PRSNT_ID
+      )
+  ) ADDRSS_PRSNT_DIST, 
+  (
+    SELECT 
+      DISTINCT (DESIGNATION) 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      emp_status = 'ACTIVE' 
+      AND DESIGNATION_ORDER = DESIGNATION_ORDER 
+    limit 
+      1
+  ) DESIGNATION, 
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      ALKP 
+    WHERE 
+      ID = cast(A.CATEGORY as integer)
+  ) CATEGORY, 
+  PROBATION_DURATION, 
+  PRIME_DUTY, 
+  JOINING_DATE :: date, 
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      ALKP 
+    WHERE 
+      ID = cast(A.JOB_LOCATION_ID as integer)
+  ) JOB_LOCATION_ID, 
+  (
+    SELECT 
+      DISTINCT OPERATING_UNIT_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_OPERATING_UNIT_ID = cast(A.ALL_ORG_OPERATING_UNIT_ID as integer)
+  ) OPERATING_UNIT_TITLE, 
+  (
+    SELECT 
+      DISTINCT PRODUCT_GROUP_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALKP_PRODUCT_GROUP_ID = cast(A.ALKP_PRODUCT_GROUP_ID as integer)
+  ) ALKP_PRODUCT_GROUP_TITLE, 
+  (
+    SELECT 
+      DISTINCT PRODUCT_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_PRODUCT_ID = cast(A.ALL_ORG_MST_PRODUCT_ID as integer)
+  ) PRODUCT_TITLE, 
+  (
+    SELECT 
+      DISTINCT DEPARTMENT_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_DEPARTMENT_ID = cast(A.ALL_ORG_MST_DEPARTMENT_ID as integer)
+  ) DEPARTMENT_TITLE, 
+  (
+    SELECT 
+      DISTINCT SECTION_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_SECTION_ID = cast(A.ALL_ORG_MST_SECTION_ID as integer)
+  ) SECTION_TITLE, 
+  (
+    SELECT 
+      DISTINCT SUB_SECTION_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_SUB_SECTION_ID = cast(A.ALL_ORG_MST_SUB_SECTION_ID as integer)
+  ) SUB_SECTION_TITLE, 
+  (
+    SELECT 
+      DISTINCT TEAM_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_TEAM_ID = cast(A.ALL_ORG_MST_TEAM_ID as integer)
+  ) TEAM_TITLE, 
+  (
+    SELECT 
+      DISTINCT SUB_TEAM_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_SUB_TEAM_ID = cast(A.ALL_ORG_MST_SUB_TEAM_ID as integer)
+  ) SUB_TEAM_TITLE, 
+  (
+    SELECT 
+      CASE WHEN OPERATING_UNIT_TITLE = 'WalCart Limited' THEN 'WCART' WHEN OPERATING_UNIT_TITLE = 'Walton Digi-Tech Industries Ltd.' THEN 'WDTIL' WHEN OPERATING_UNIT_TITLE = 'Walton Micro-Tech Corporation' THEN 'WMTC' WHEN OPERATING_UNIT_TITLE = 'Bangla Emirate Aquaculture Ltd.' THEN 'BEAL' WHEN OPERATING_UNIT_TITLE = 'Walton Agro Farm and Industries' THEN 'WAFI' WHEN OPERATING_UNIT_TITLE = 'Walton Plaza' THEN 'WPZT' WHEN OPERATING_UNIT_TITLE = 'Dream Park International' THEN 'DPI' WHEN OPERATING_UNIT_TITLE = 'Walton Trustee Board' THEN 'WTB' WHEN OPERATING_UNIT_TITLE = 'Walton Chemical Industries Ltd' THEN 'WCIL' WHEN OPERATING_UNIT_TITLE = 'Walton Hi-Tech Industries Ltd.' THEN 'WHIL' WHEN OPERATING_UNIT_TITLE = 'Walton Hi-Tech Industries PLC' THEN 'WHIPLC' WHEN OPERATING_UNIT_TITLE = 'Walton Shipping  & Logistics' THEN 'WSL' WHEN OPERATING_UNIT_TITLE = 'Walton Corporation Ltd.' THEN 'WCL' WHEN OPERATING_UNIT_TITLE = 'Walton Group' THEN 'WG' WHEN OPERATING_UNIT_TITLE = 'RB Group of Companies Ltd.' THEN 'RBG' END 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_OPERATING_UNIT_ID = cast(A.ALL_ORG_OPERATING_UNIT_ID as integer)
+      limit 1
+  ) OU_TITLE_SHORT 
+FROM 
+  HR_IR_APLC A 
+WHERE 
+  CODE = $P{P_APLC_CODE}]]>
+	</queryString>
+	<field name="code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="code"/>
+		<property name="com.jaspersoft.studio.field.label" value="code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="sl_no" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="sl_no"/>
+		<property name="com.jaspersoft.studio.field.label" value="sl_no"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="title"/>
+		<property name="com.jaspersoft.studio.field.label" value="title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="national_identity_number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="national_identity_number"/>
+		<property name="com.jaspersoft.studio.field.label" value="national_identity_number"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="mob_code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="mob_code"/>
+		<property name="com.jaspersoft.studio.field.label" value="mob_code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="email"/>
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="father_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="father_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="father_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="mother_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="mother_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="mother_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="salary" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="salary"/>
+		<property name="com.jaspersoft.studio.field.label" value="salary"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="in_word" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="in_word"/>
+		<property name="com.jaspersoft.studio.field.label" value="in_word"/>
+	</field>
+	<field name="spouse_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="spouse_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="spouse_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prmnt_vill" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prmnt_vill"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prmnt_vill"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prmnt_po" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prmnt_po"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prmnt_po"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="mon_aftr_join" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="mon_aftr_join"/>
+		<property name="com.jaspersoft.studio.field.label" value="mon_aftr_join"/>
+	</field>
+	<field name="addrss_prmnt_ps" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prmnt_ps"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prmnt_ps"/>
+	</field>
+	<field name="addrss_prmnt_dist" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prmnt_dist"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prmnt_dist"/>
+	</field>
+	<field name="addrss_prsnt_vill" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prsnt_vill"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prsnt_vill"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prsnt_po" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prsnt_po"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prsnt_po"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prsnt_ps" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prsnt_ps"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prsnt_ps"/>
+	</field>
+	<field name="addrss_prsnt_dist" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prsnt_dist"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prsnt_dist"/>
+	</field>
+	<field name="designation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="designation"/>
+		<property name="com.jaspersoft.studio.field.label" value="designation"/>
+	</field>
+	<field name="category" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="category"/>
+		<property name="com.jaspersoft.studio.field.label" value="category"/>
+	</field>
+	<field name="probation_duration" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="probation_duration"/>
+		<property name="com.jaspersoft.studio.field.label" value="probation_duration"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="prime_duty" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="prime_duty"/>
+		<property name="com.jaspersoft.studio.field.label" value="prime_duty"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="joining_date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="joining_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="joining_date"/>
+	</field>
+	<field name="job_location_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="job_location_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="job_location_id"/>
+	</field>
+	<field name="operating_unit_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="operating_unit_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="operating_unit_title"/>
+	</field>
+	<field name="alkp_product_group_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="alkp_product_group_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="alkp_product_group_title"/>
+	</field>
+	<field name="product_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="product_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="product_title"/>
+	</field>
+	<field name="department_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="department_title"/>
+	</field>
+	<field name="section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="section_title"/>
+	</field>
+	<field name="sub_section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="sub_section_title"/>
+	</field>
+	<field name="team_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="team_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="team_title"/>
+	</field>
+	<field name="sub_team_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_team_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="sub_team_title"/>
+	</field>
+	<field name="ou_title_short" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ou_title_short"/>
+		<property name="com.jaspersoft.studio.field.label" value="ou_title_short"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="663" splitType="Stretch">
+			<textField pattern="d/M/yyyy" isBlankWhenNull="true">
+				<reportElement x="36" y="0" width="241" height="20" uuid="793ab366-4ea1-497c-a726-1b0c243654d5"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{joining_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="214" width="555" height="184" uuid="b4f40680-a923-4bb1-a1ce-2e6ff93ee000"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["With reference to your job application, "+$F{operating_unit_title}+" is delighted to offer you the position of Offer Letter for the position of “"+ $F{designation}+"” under the Department of "+$F{department_title}+" in "+$F{section_title}+" Section Your excellence in getting through all the stages of the recruitment process has resulted in you landing this job and we cannot be any less proud to be able to offer you this position. Your joining date is effective from "+ $F{joining_date}+" and we hope to see you joining us soon enough. The details of Salary & Compensation will be made known to you in the upcoming joining processes. Please note that upon your joining, you will be provided with the detailed documents of terms and conditions, policies and codes of conduct.Our HRM department will be contacting you soon with details about the next procedures. You will be in probationary capacity for six months and will be appointed as permanent after the successful completion of your probation period."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="450" width="555" height="20" uuid="3ea0406f-3bb9-44ee-a06a-1be55fe7152b"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Your appointment with us is subject to providing a relieving letter from your present organization. At the time of joining, please carry photocopies and original (for verification only) of the documents as per the list provided to you.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="535" width="555" height="20" uuid="f28f8873-f00a-45a4-973b-049d75bbc910"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Thanking you,]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="641" width="555" height="20" uuid="74bdb970-fe4f-4dbc-a065-7dedf0aae09e"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{operating_unit_title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="285" height="20" uuid="5b97d58d-bbde-47a0-8ea8-80d9683c5dd9"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Name: "+ $F{title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="40" width="452" height="20" uuid="256544b5-448c-4533-acc3-89ee40b32f72"/>
+				<box leftPadding="10" rightPadding="7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["C/O. "+$F{father_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="60" width="555" height="15" uuid="44f6e85b-206c-4ed7-96ba-a7834c797519"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Present Address- Vill:"+$F{addrss_prsnt_vill}+" P.O."+$F{addrss_prsnt_po}+" PS."+$F{addrss_prsnt_ps}+" Dist:"+$F{addrss_prsnt_dist}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="75" width="555" height="16" uuid="24cf92d3-5962-4cfb-bf6c-b450ec2999ca"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Permanent Address- Vill:"+$F{addrss_prmnt_vill}+" P.O."+$F{addrss_prmnt_po}+" PS."+$F{addrss_prmnt_ps}+" Dist:"+$F{addrss_prmnt_dist}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="91" width="357" height="15" uuid="3feffe70-c6c0-4213-9090-405ff2834a88"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Mobile: "+$F{mob_code}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="106" width="357" height="15" uuid="5e0e6273-0665-457f-acbb-6eb3a9e13825"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified">
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}==null?"Email:":"Email: "+$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="121" width="357" height="16" uuid="0de02f97-8f46-4ddd-94b7-c1600fae3253"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified">
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NID: "+$F{national_identity_number}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="137" width="555" height="36" uuid="e63a562b-39f2-4516-8d8a-eab6b7e2233f"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Subject: Offer Letter for the position of “ "+ $F{designation}+" ” under the Department of " +$F{department_title}+" in "+$F{section_title}+" Section"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="183" width="555" height="20" uuid="72fd7ede-27d8-4292-85de-e4670ba87cc3"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Congratulations "+ $F{title}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="0" y="398" width="555" height="46" uuid="fc52582a-4710-4c28-96cd-df3a3c050d31"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["You are hereby requested to be present within "+ $F{mon_aftr_join}+" at our HR Headquarters office at 9AM (Sharp) for further processing and completion of your joining formalities. Our HR representative will be there to guide you through the process and assist you."]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="483" width="555" height="32" uuid="55f20ce7-8483-4482-9d1c-a18f9044cd90"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["The management warmly welcomes you to "+ $F{operating_unit_title}+"and is looking forward to work with you. Congratulations again!"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="584" width="555" height="62" uuid="a7b80029-0e23-46f2-b220-eedb31baec39"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Saifuddin Mohammed Tarek
+Incharge,
+Recruitment & Documentation Section
+HRM Department
+Headquarters
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="36" height="20" uuid="cf3fcff5-7a83-4582-a3b7-0eefa77ab130"/>
+				<box leftPadding="10" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

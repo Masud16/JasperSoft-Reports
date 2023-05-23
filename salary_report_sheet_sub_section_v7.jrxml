@@ -1,0 +1,2405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4_7" pageWidth="1060" pageHeight="842" columnWidth="1020" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="70d61ab7-e939-4fbc-b0cf-a006c1d9b664">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<parameter name="P_EMP_CODES" class="java.util.Collection"/>
+	<parameter name="P_START_DATE" class="java.lang.String"/>
+	<parameter name="P_END_DATE" class="java.lang.String"/>
+	<parameter name="P_DESIGNATION_VIEW" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_IS_BANK_SAL" class="java.lang.Long"/>
+	<parameter name="P_IS_SAL_HOLD" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_HR_PRL_MST_ID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_ALKP_EMP_CAT_ID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_JOB_LOCATION_ID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select 
+P.IS_SALARY_HOLD,
+     P.HR_PRL_MST_ID,
+     P.ALKP_EMP_CAT_ID,
+     P.BANK_ACCOUNT_NO,
+     P.ALKP_ORG_LOC_ID,
+     P.FROM_DATE,
+     P.TO_DATE,
+      P.EMP_ID,
+      P.EMP_CODE,
+       P.EMP_NAME,
+          CASE WHEN  $P{P_DESIGNATION_VIEW} ='1'  THEN (P.DESIGNATION) ELSE '##.##' END DESIGNATION,
+       P.ALKP_JOB_ID,
+       P.OU_TITLE,
+        NVL(P.org_LOC_TITLE,(SELECT TITLE FROM ALKP WHERE ID=JOB_LOCATION_ID))LOCATION_TITLE,
+       P.PRODUCT_TITLE,
+       P.DEPARTMENT_TITLE,
+       P. SECTION_TITLE,P.SUB_SECTION_TITLE,
+       ROUND(P.PRL_ELMNT_BASIC)PRL_ELMNT_BASIC,
+       P.PRL_ELMNT_HOUSE_RENT,
+       P.MEDICAL_ALLOWANCE,
+       P.CONVEYANCE_ALLOWANCE,
+       P.OTHER_ALLOWANCE,
+P.PRL_ELMNT_INCENTIVE,
+       P.GROSS_RATE_HR,
+       P.PRL_ELMNT_LOAN,
+       P.PRL_ELMNTAIT,
+       P.PRL_ELMNTRPF,
+       P.PRL_ELMNT_CONVEYANCE_DEDUCTION,
+       P.PRL_ELMNT_FOOD_DEDUCTION,
+             ((P.PRL_ELMNT_AWARD)-(P.PRL_ELMNT_PUNISHMENT)) AWARD,
+       ((P.PRL_ELMNT_OTHER_DEDUCTION)+ (P.PRL_ELMNT_PENALTY_DEDUCTION)) PRL_ELMNT_OTHER_DEDUCTION,
+       P.PRL_ELMNT_ABSENT_DEDUCTION,
+       P.PRL_ELMNT_TEMP_ADV_DEDUCTION,
+       P.TOTAL_DEDUCTION,
+       ROUND(P.NET_PAYABLE_AMOUNT) NET_PAYABLE_AMOUNT,
+       P.ORG_LOC_TITLE 
+ from PRL_SAL_TBL P
+where
+ $X{IN,P.emp_code, P_EMP_CODES}
+   AND  P.IS_SALARY_HOLD=$P{P_IS_SAL_HOLD} 
+       AND ( $P{P_HR_PRL_MST_ID}  is null or P.HR_PRL_MST_ID=$P{P_HR_PRL_MST_ID}  )
+      AND  ($P{P_ALKP_EMP_CAT_ID} is null or P.ALKP_EMP_CAT_ID =$P{P_ALKP_EMP_CAT_ID} )
+AND (($P{P_IS_BANK_SAL} = 1 AND P.BANK_ACCOUNT_NO IS NOT NULL) OR  ($P{P_IS_BANK_SAL}  = 0 AND P.BANK_ACCOUNT_NO IS NULL ) )
+  AND P.FROM_DATE =TO_DATE ( $P{P_START_DATE} ,  'yyyy-MM-DD')
+        AND  P.TO_DATE = TO_DATE ( $P{P_END_DATE} ,  'yyyy-MM-DD')
+AND ( $P{P_JOB_LOCATION_ID} is null or P.JOB_LOCATION_ID= $P{P_JOB_LOCATION_ID})]]>
+	</queryString>
+	<field name="is_salary_hold" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="is_salary_hold"/>
+		<property name="com.jaspersoft.studio.field.label" value="is_salary_hold"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="hr_prl_mst_id" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="hr_prl_mst_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="hr_prl_mst_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="alkp_emp_cat_id" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="alkp_emp_cat_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="alkp_emp_cat_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="bank_account_no" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="bank_account_no"/>
+		<property name="com.jaspersoft.studio.field.label" value="bank_account_no"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="alkp_org_loc_id" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="alkp_org_loc_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="alkp_org_loc_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="from_date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="from_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="from_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="to_date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="to_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="to_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="emp_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="emp_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="emp_code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_code"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="emp_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="designation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="designation"/>
+		<property name="com.jaspersoft.studio.field.label" value="designation"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="alkp_job_id" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="alkp_job_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="alkp_job_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="ou_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ou_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="ou_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="location_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="location_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="location_title"/>
+	</field>
+	<field name="product_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="product_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="product_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="department_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="sub_section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="sub_section_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="prl_elmnt_basic" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="prl_elmnt_basic"/>
+		<property name="com.jaspersoft.studio.field.label" value="prl_elmnt_basic"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="prl_elmnt_house_rent" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="prl_elmnt_house_rent"/>
+		<property name="com.jaspersoft.studio.field.label" value="prl_elmnt_house_rent"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="medical_allowance" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="medical_allowance"/>
+		<property name="com.jaspersoft.studio.field.label" value="medical_allowance"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="conveyance_allowance" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="conveyance_allowance"/>
+		<property name="com.jaspersoft.studio.field.label" value="conveyance_allowance"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="other_allowance" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="other_allowance"/>
+		<property name="com.jaspersoft.studio.field.label" value="other_allowance"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="prl_elmnt_incentive" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="prl_elmnt_incentive"/>
+		<property name="com.jaspersoft.studio.field.label" value="prl_elmnt_incentive"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="gross_rate_hr" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="gross_rate_hr"/>
+		<property name="com.jaspersoft.studio.field.label" value="gross_rate_hr"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="prl_elmnt_loan" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="prl_elmnt_loan"/>
+		<property name="com.jaspersoft.studio.field.label" value="prl_elmnt_loan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="prl_elmntait" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="prl_elmntait"/>
+		<property name="com.jaspersoft.studio.field.label" value="prl_elmntait"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="prl_elmntrpf" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="prl_elmntrpf"/>
+		<property name="com.jaspersoft.studio.field.label" value="prl_elmntrpf"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="prl_elmnt_conveyance_deduction" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="prl_elmnt_conveyance_deduction"/>
+		<property name="com.jaspersoft.studio.field.label" value="prl_elmnt_conveyance_deduction"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="prl_elmnt_food_deduction" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="prl_elmnt_food_deduction"/>
+		<property name="com.jaspersoft.studio.field.label" value="prl_elmnt_food_deduction"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="award" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="award"/>
+		<property name="com.jaspersoft.studio.field.label" value="award"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="prl_elmnt_other_deduction" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="prl_elmnt_other_deduction"/>
+		<property name="com.jaspersoft.studio.field.label" value="prl_elmnt_other_deduction"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="prl_elmnt_absent_deduction" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="prl_elmnt_absent_deduction"/>
+		<property name="com.jaspersoft.studio.field.label" value="prl_elmnt_absent_deduction"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="prl_elmnt_temp_adv_deduction" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="prl_elmnt_temp_adv_deduction"/>
+		<property name="com.jaspersoft.studio.field.label" value="prl_elmnt_temp_adv_deduction"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="total_deduction" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total_deduction"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_deduction"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="net_payable_amount" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="net_payable_amount"/>
+		<property name="com.jaspersoft.studio.field.label" value="net_payable_amount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="org_loc_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="org_loc_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="org_loc_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<variable name="V_SERIAL" class="java.lang.Integer" resetType="Group" resetGroup="SECTION_TITLE" calculation="Count">
+		<variableExpression><![CDATA[new java.lang.Integer("1")]]></variableExpression>
+	</variable>
+	<variable name="EMP_CODE_2" class="java.lang.Integer" resetType="Group" resetGroup="SECTION_TITLE" calculation="Count">
+		<variableExpression><![CDATA[$F{emp_code}]]></variableExpression>
+	</variable>
+	<variable name="EMP_NAME_2" class="java.lang.Integer" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Count">
+		<variableExpression><![CDATA[$F{emp_name}]]></variableExpression>
+	</variable>
+	<variable name="AWARD_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{award}]]></variableExpression>
+	</variable>
+	<variable name="AWARD_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{award}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_BASIC_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_basic}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_BASIC_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_basic}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_BASIC_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_basic}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_HOUSE_RENT_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_house_rent}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_HOUSE_RENT_2" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_house_rent}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_HOUSE_RENT_1" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_house_rent}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_MEDICAL_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{medical_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_MEDICAL_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{medical_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_MEDICAL_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{medical_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_CONVEYANCE_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{conveyance_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_CONVEYANCE_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{conveyance_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_CONVEYANCE_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{conveyance_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_OTHER_ALLOWANCE_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{other_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_OTHER_ALLOWANCE_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{other_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_OTHER_ALLOWANCE_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{other_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_RPF_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_incentive}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_RPF_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_incentive}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_RPF_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_incentive}]]></variableExpression>
+	</variable>
+	<variable name="GROSS_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{gross_rate_hr}]]></variableExpression>
+	</variable>
+	<variable name="GROSS_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{gross_rate_hr}]]></variableExpression>
+	</variable>
+	<variable name="GROSS_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{gross_rate_hr}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_LOAN_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_loan}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_LOAN_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_loan}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_LOAN_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_loan}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_AIT_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmntait}]]></variableExpression>
+	</variable>
+	<variable name="AWARD_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{award}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_AIT_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmntait}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_AIT_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmntait}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_OTHER_DEDUCTION_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_other_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_OTHER_DEDUCTION_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_other_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_OTHER_DEDUCTION_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_other_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_ABSENT_DEDUCTION_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_absent_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_ABSENT_DEDUCTION_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_absent_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_ABSENT_DEDUCTION_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_absent_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_FOOD_DEDUCTION_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_food_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_FOOD_DEDUCTION_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_food_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_FOOD_DEDUCTION_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_food_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_CONVEYANCE_DEDUCTION_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_conveyance_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_CONVEYANCE_DEDUCTION_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_conveyance_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_CONVEYANCE_DEDUCTION_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_conveyance_deduction}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_DEDUCTION_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_deduction}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_DEDUCTION_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_deduction}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_DEDUCTION_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_deduction}]]></variableExpression>
+	</variable>
+	<variable name="NET_PAYABLE_AMOUNT_0" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{net_payable_amount}]]></variableExpression>
+	</variable>
+	<variable name="NET_PAYABLE_AMOUNT_1" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{net_payable_amount}]]></variableExpression>
+	</variable>
+	<variable name="NET_PAYABLE_AMOUNT_2" class="java.math.BigDecimal" resetType="Group" resetGroup="DEPARTMENT_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{net_payable_amount}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_BASIC_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_basic}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_HOUSE_RENT_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_house_rent}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_MEDICAL_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{medical_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_CONVEYANCE_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{conveyance_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_OTHER_ALLOWANCE_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{other_allowance}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_RPF_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_incentive}]]></variableExpression>
+	</variable>
+	<variable name="GROSS_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{gross_rate_hr}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_LOAN_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_loan}]]></variableExpression>
+	</variable>
+	<variable name="AWARD_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{award}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_AIT_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmntait}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_OTHER_DEDUCTION_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_other_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_ABSENT_DEDUCTION_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_absent_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_FOOD_DEDUCTION_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_food_deduction}]]></variableExpression>
+	</variable>
+	<variable name="PRL_ELMNT_CONVEYANCE_DEDUCTION_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{prl_elmnt_conveyance_deduction}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_DEDUCTION_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_deduction}]]></variableExpression>
+	</variable>
+	<variable name="NET_PAYABLE_AMOUNT_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{net_payable_amount}]]></variableExpression>
+	</variable>
+	<variable name="EMP_NAME_5" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{emp_name}]]></variableExpression>
+	</variable>
+	<group name="DEPARTMENT_TITLE">
+		<groupExpression><![CDATA[$F{department_title}]]></groupExpression>
+		<groupHeader>
+			<band height="19">
+				<textField>
+					<reportElement x="2" y="0" width="1035" height="19" uuid="83624677-08e7-4827-8d7a-465344a42557"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Department: "+$F{department_title}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="15">
+				<textField>
+					<reportElement x="0" y="0" width="266" height="15" uuid="d7ede983-58cd-4008-a0d3-0b2bb7e15135"/>
+					<box leftPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{department_title}+" Department, No of Employee(s): "+$V{EMP_NAME_2}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="266" y="0" width="46" height="15" uuid="6f13db93-bea5-482a-bf0d-db50b0450cfb"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Total:]]></text>
+				</staticText>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="312" y="0" width="50" height="15" uuid="6174bf10-b280-4ee1-b1b5-49cdc75a20f7"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_BASIC_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="362" y="0" width="48" height="15" uuid="ec78507a-cca7-43d4-aa09-b01ba0d578ac"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_HOUSE_RENT_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="410" y="0" width="40" height="15" uuid="49e39d3c-80c7-47a4-a27b-51509e16bbcd"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_MEDICAL_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="450" y="0" width="45" height="15" uuid="3113404a-07e0-42f8-85be-a19b7421fbaf"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_CONVEYANCE_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="495" y="0" width="42" height="15" uuid="ce2f7b6e-0ddf-45ed-af62-bb8f8cc6ec03"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_OTHER_ALLOWANCE_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="537" y="0" width="35" height="15" uuid="b3cae77c-71a5-43b3-a854-0df28528c872"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_RPF_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="572" y="0" width="47" height="15" uuid="f76ce7f2-4e02-46ab-bc98-579c0e86012a"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{GROSS_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="619" y="0" width="35" height="15" uuid="2a28eb20-0933-40d9-a81c-9acca3d9abf8"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_LOAN_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="654" y="0" width="43" height="15" uuid="81e45ee8-fad5-4ef3-a3a8-a4b86866da0f"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{AWARD_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="697" y="0" width="36" height="15" uuid="9c39212f-7886-4299-be09-1558fe262326"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_AIT_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="733" y="0" width="38" height="15" uuid="896f9c8f-e496-423b-966e-64294a24f770"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_OTHER_DEDUCTION_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="771" y="0" width="41" height="15" uuid="e1d21aa7-1ff2-4388-8039-878d62f772e1"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_ABSENT_DEDUCTION_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="812" y="0" width="38" height="15" uuid="f5061ef4-cf1e-4052-be8b-cea15a7a33e4"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_FOOD_DEDUCTION_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="850" y="0" width="40" height="15" uuid="75361c48-4393-470a-a903-a61c0d363722"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_CONVEYANCE_DEDUCTION_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="890" y="0" width="48" height="15" uuid="06abe6f6-dc96-4160-a059-f63e65ad39a4"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TOTAL_DEDUCTION_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="938" y="0" width="54" height="15" uuid="72e79e52-ac90-4663-883d-6f5cea128268"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{NET_PAYABLE_AMOUNT_2}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="992" y="0" width="45" height="15" uuid="8f0b16af-5c7f-425c-a383-c2056093cfa0"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="SECTION_TITLE">
+		<groupExpression><![CDATA[$F{section_title}]]></groupExpression>
+		<groupHeader>
+			<band height="17">
+				<textField isBlankWhenNull="true">
+					<reportElement x="1" y="1" width="386" height="16" uuid="19f94c8b-25f5-4227-9295-5564c4e8549d"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Section: "+(($F{section_title}!= null) ? $F{section_title} : $F{department_title})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="15">
+				<textField isBlankWhenNull="false">
+					<reportElement mode="Transparent" x="0" y="0" width="266" height="15" uuid="09598456-dafb-421b-adf1-8fca5c792a71"/>
+					<box leftPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($F{section_title} != null) ? $F{section_title} : $F{department_title})+" Section, No of Employee(s): "+$V{EMP_CODE_2}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="266" y="0" width="46" height="15" uuid="f6bf7cb7-e578-4008-9faa-ffe7074d1b97"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Total:]]></text>
+				</staticText>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="312" y="0" width="50" height="15" uuid="a6356ab6-0d02-4c3a-8835-3077b33e89af"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_BASIC_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="362" y="0" width="48" height="15" uuid="8b11daad-1d1b-4c87-aa35-0168d6e99a6c"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_HOUSE_RENT_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="410" y="0" width="40" height="15" uuid="8443ff6e-e222-4304-98ef-ddbaefb98843"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_MEDICAL_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="450" y="0" width="45" height="15" uuid="2e034f72-3978-4230-ac31-e54459de2405"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_CONVEYANCE_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="495" y="0" width="42" height="15" uuid="df2f89d7-2d25-4dcb-9fcc-893c35340698"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_OTHER_ALLOWANCE_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="537" y="0" width="35" height="15" uuid="dd700c89-51ed-42ce-9abf-ed2bbb7dff4f"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_RPF_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="572" y="0" width="47" height="15" uuid="256e766f-9d02-403d-85ee-25b59f37d0d7"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{GROSS_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="619" y="0" width="35" height="15" uuid="39ef3846-1038-433c-8299-c22132de9d3a"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_LOAN_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="654" y="0" width="43" height="15" uuid="ee157822-ad2e-4825-a083-6c59756dec7e"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{AWARD_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="697" y="0" width="36" height="15" uuid="a705ae65-ef2d-430c-afa6-588c790a7bb0"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_AIT_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="733" y="0" width="38" height="15" uuid="03c80944-c505-4826-a6dc-f5d60813b116"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_OTHER_DEDUCTION_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="771" y="0" width="41" height="15" uuid="c1ed6a71-34d3-4801-afab-a873229084b9"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_ABSENT_DEDUCTION_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="812" y="0" width="38" height="15" uuid="344755dd-4b4a-4337-ac70-f3c4df192d41"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_FOOD_DEDUCTION_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="850" y="0" width="40" height="15" uuid="7c59efb6-45ff-483b-8917-4d5d051fd7e1"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_CONVEYANCE_DEDUCTION_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="890" y="0" width="48" height="15" uuid="623ee8fe-a817-4144-9b66-387e0d79ff98"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TOTAL_DEDUCTION_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="938" y="0" width="54" height="15" uuid="aaff8710-0df0-4e72-9cf7-cad02837e3c7"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{NET_PAYABLE_AMOUNT_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="992" y="0" width="45" height="15" uuid="d4c9ed6d-6805-463a-83eb-9bcbef61e9a8"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="SUB_SECTION_TITLE">
+		<groupExpression><![CDATA[$F{sub_section_title}]]></groupExpression>
+		<groupHeader>
+			<band height="16">
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="386" height="16" uuid="577731dc-ee51-40f1-9b3a-80379da82b31"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Sub-Section: "+(($F{sub_section_title} != null) ? $F{sub_section_title} : $F{department_title})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="15">
+				<textField isBlankWhenNull="false">
+					<reportElement mode="Transparent" x="0" y="0" width="266" height="15" uuid="4446b9c5-1802-4892-85cf-aa59f627d1ef"/>
+					<box leftPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($F{sub_section_title} != null) ? $F{sub_section_title} : $F{department_title})+" Sub-Section, No of Employee(s): "+$V{EMP_CODE_2}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="266" y="0" width="46" height="15" uuid="8b2bf4b9-5abd-4499-a2d9-db2cc84cf68b"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Total:]]></text>
+				</staticText>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="312" y="0" width="50" height="15" uuid="3fd486b7-2afa-4b8c-9e2f-adf332ce1fc0"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_BASIC_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="362" y="0" width="48" height="15" uuid="6744097a-bb3b-4194-9488-8941d5612a8f"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_HOUSE_RENT_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="410" y="0" width="40" height="15" uuid="d16012f6-36ff-42b0-af3e-a82f72895390"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_MEDICAL_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="450" y="0" width="45" height="15" uuid="80696de0-a28e-4cb0-a1dd-f06437df8176"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_CONVEYANCE_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="495" y="0" width="42" height="15" uuid="b000fc53-a960-4d28-a926-fc12e612636b"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_OTHER_ALLOWANCE_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="537" y="0" width="35" height="15" uuid="5697bd0d-1fe1-4dc8-ac4f-feaa648a33b2"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_RPF_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="572" y="0" width="47" height="15" uuid="34fe0564-2fcd-48a5-94f7-2a617a0ef31d"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{GROSS_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="619" y="0" width="35" height="15" uuid="b146b697-e1e6-4fd5-a116-e09039ccf289"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_LOAN_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="654" y="0" width="43" height="15" uuid="783d1fc3-2e96-4532-9e62-69520617fe9e"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{AWARD_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="697" y="0" width="36" height="15" uuid="51a685b4-27b0-4d9e-b2e0-ecd054f27564"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_AIT_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="733" y="0" width="38" height="15" uuid="0e8f139c-002d-45c3-9901-9765ff95af09"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_OTHER_DEDUCTION_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="771" y="0" width="41" height="15" uuid="0f08a258-4cc2-428c-97cb-b2e5d428ed18"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_ABSENT_DEDUCTION_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="812" y="0" width="38" height="15" uuid="d971dafd-9335-4653-9dae-7431815fdb12"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_FOOD_DEDUCTION_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="850" y="0" width="40" height="15" uuid="42b690fc-c131-4e90-a15f-2ce365ab840c"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRL_ELMNT_CONVEYANCE_DEDUCTION_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="890" y="0" width="48" height="15" uuid="dff8aa7a-495d-49d9-ac24-cdb8b1692716"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TOTAL_DEDUCTION_0}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="938" y="0" width="54" height="15" uuid="7e88c97a-dcaa-439d-a4c3-7f80aa9c30d0"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{NET_PAYABLE_AMOUNT_0}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="992" y="0" width="45" height="15" uuid="6de24fa6-f1ae-431c-840d-89a708ec46f5"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="56" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement positionType="Float" x="0" y="39" width="1020" height="17" uuid="e52f9ff5-b50f-42cc-b41f-dd3285f4ab69"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Salary Sheet For the Period of: Start Date: "+$P{P_START_DATE}+" To End Date: "+$P{P_END_DATE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="21" width="1020" height="18" uuid="80020fbd-47bb-42fb-a0c1-2d4c91e0cbb4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_IS_BANK_SAL}==1? "Bank Sheet" : "Cash Sheet"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="18" width="1020" height="1" uuid="eb085c7b-4168-4efb-bea5-bb7b5aadd32a"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="0" y="2" width="412" height="9" uuid="ab58ef09-7117-4bb3-859f-1ea3f040cfb6"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Print Date and Time: "+(new SimpleDateFormat("EEEEE, d MMMMM yyyy hh:mm:ss aaa")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="32" height="31" uuid="8315d39c-7865-4542-95ab-f008841abc24"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Sl. No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="32" y="0" width="48" height="31" uuid="69eba2aa-6824-4c04-ba51-8db76fcd6e83"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="0" width="117" height="31" uuid="34086542-7d55-4db3-8aae-061b48b6d9a0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Name of Employee]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="197" y="0" width="115" height="31" uuid="8e0ea95a-0319-473d-91b7-91cf168b8279"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Designation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="312" y="0" width="50" height="31" uuid="e03f0f41-9b3f-403b-86cf-4dbb640a3280"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Basic Salary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="362" y="0" width="48" height="31" uuid="736c3341-2c13-4eb3-acbe-b7afa3c14211"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[House Rent]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="0" width="40" height="31" uuid="2e181430-a405-4d8f-a6c3-2779751c5f6b"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Medi. Allow.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="0" width="45" height="31" uuid="a65f85ee-9db2-4897-8f41-90b5e69a4774"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Conv. Allow.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="495" y="0" width="42" height="31" uuid="518c4660-23a5-4ab0-9c54-0d237fa6cd4c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Others Allow.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="537" y="0" width="35" height="31" uuid="a2bc4317-8ef0-48e9-97e3-dc26a430c61c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Incentive]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="572" y="0" width="47" height="31" uuid="7191eb96-af4e-4280-9771-69127abae0fd"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Gross Salary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="619" y="0" width="35" height="31" uuid="db18dc1a-f626-4c00-9ac3-6b6364cd8f6f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Loan/Advance Deduct]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="654" y="0" width="43" height="31" uuid="c424c84c-55ce-4d06-8a9e-114b23b0b320"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Award/Punishment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="697" y="0" width="36" height="31" uuid="6be4b28f-bda9-4e8c-884f-337c80a0992f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[AIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="733" y="0" width="38" height="31" uuid="648daf20-47cc-43e2-8b15-2583db237558"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Others Deduct]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="771" y="0" width="41" height="31" uuid="5cb7adfe-da86-4a2e-a781-1d7e55618215"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Absent Deduct]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="812" y="0" width="38" height="31" uuid="cc6e2231-b4a8-47dd-ab35-e684730cee9e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Food Deduct]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="850" y="0" width="40" height="31" uuid="61a6f0f2-09f7-47fa-ae9a-a5b4ed3ee3f7"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Conv. Deduct]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="890" y="0" width="48" height="31" uuid="296943e4-3108-4983-8d40-c064bfbff7e7"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Total Deduct]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="938" y="0" width="54" height="31" uuid="8e55eb9e-e150-43bc-9f56-b5a4ac4506f7"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Payable Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="992" y="0" width="45" height="31" uuid="23c4f252-eb8b-439a-add5-bb543cbb457a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Signature]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="80" y="0" width="117" height="15" uuid="dd3311cb-b3dc-47c6-91e8-7030b10be11b"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="197" y="0" width="115" height="15" uuid="1c1f0fed-2905-4e12-8394-f204111efcbc"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="362" y="0" width="48" height="15" uuid="7f402eff-6669-4a09-b8dc-f862c6cb7858"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prl_elmnt_house_rent}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="410" y="0" width="40" height="15" uuid="6cee39da-99dd-49f3-86c8-c05bf54ddbb9"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{medical_allowance}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="450" y="0" width="45" height="15" uuid="56857128-36eb-44bd-9173-dee594c488c7"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{conveyance_allowance}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="495" y="0" width="42" height="15" uuid="791af9e7-badc-4f44-acb4-0d62a42f8efd"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{other_allowance}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="572" y="0" width="47" height="15" uuid="9307ad00-011e-4402-8e1d-767d10092361"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gross_rate_hr}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="619" y="0" width="35" height="15" uuid="1cac672d-0cc2-450c-a1c5-652aecc33c72"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prl_elmnt_loan}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="697" y="0" width="36" height="15" uuid="e34a49ef-9657-4871-8823-c117fbab5219"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prl_elmntait}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="537" y="0" width="35" height="15" uuid="c194c854-858a-4edb-b263-a89c6d786cc8"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prl_elmnt_incentive}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="733" y="0" width="38" height="15" uuid="168325e3-51da-45b1-91b0-108c6bf929cf"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prl_elmnt_other_deduction}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="771" y="0" width="41" height="15" uuid="3c6e420b-ee5b-43f7-b8d0-ff2c348e7ccb"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prl_elmnt_absent_deduction}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="850" y="0" width="40" height="15" uuid="a664c358-6b6a-4e2e-b182-771bc260bd7d"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prl_elmnt_conveyance_deduction}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="992" y="0" width="45" height="15" uuid="1494217c-1b7a-46a6-bcda-f781cb4d5544"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="32" height="15" uuid="7c13f19d-4db3-4000-9a1d-341b758495e3"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{V_SERIAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="938" y="0" width="54" height="15" uuid="132159c3-c89e-4060-8f15-82558942f0f3"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{net_payable_amount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="890" y="0" width="48" height="15" uuid="a635ddcf-dc15-4ade-b55d-81784e528b88"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_deduction}]]></textFieldExpression>
+			</textField>
+			<textField pattern="##,##,##,##0" isBlankWhenNull="true">
+				<reportElement x="312" y="0" width="50" height="15" uuid="d62a03b0-ced3-4cc0-8938-f4e0448da7a6"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prl_elmnt_basic}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="812" y="0" width="38" height="15" uuid="f5e31183-bd3e-418e-b876-91d2915af203"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prl_elmnt_food_deduction}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="0" width="48" height="15" uuid="97adf570-a206-4114-8072-7d65e0bb44e1"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_code}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="654" y="0" width="43" height="15" uuid="60e06ade-650c-4469-9027-6a63f160feda"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{award}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="56">
+			<staticText>
+				<reportElement x="24" y="14" width="138" height="18" uuid="0a004a71-0a93-4200-b5ef-dd8cfd96c6fb"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[HR Executive]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="850" y="14" width="138" height="18" uuid="f2a4513b-d97c-4a4b-887d-f49d38fc5910"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Payroll]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="36" width="1036" height="1" uuid="c88deb19-6dd0-4aee-81ff-98040dca2dfc"/>
+			</line>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="38" width="278" height="14" uuid="2c6d78be-e68e-49d2-b5fa-3a7fb7c2022f"/>
+				<box leftPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Design and developed by: Walton Digi-Tech Ind. Ltd.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="893" y="37" width="128" height="17" uuid="84ffa1b0-cf24-468a-bc44-b136adc439c6">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="1021" y="37" width="16" height="17" uuid="228f6913-85ae-4513-a192-53807692e6bd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="18" splitType="Stretch">
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="312" y="0" width="50" height="18" uuid="ca17d49e-80ad-45e8-b8bf-c532cf2ca9c9"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_BASIC_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="362" y="0" width="48" height="18" uuid="4b4a7df7-b00e-4d79-bb6c-eeb7b0f60ea0"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_HOUSE_RENT_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="410" y="0" width="40" height="18" uuid="59257593-4cfe-4951-9967-1913af4781f4"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_MEDICAL_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="450" y="0" width="45" height="18" uuid="d4df66ee-4df2-4ee2-a8a9-71299fd64a32"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_CONVEYANCE_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="495" y="0" width="42" height="18" uuid="ff1ea6b1-e495-4a30-a2be-8c057bb9b0a4"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_OTHER_ALLOWANCE_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="572" y="0" width="47" height="18" uuid="e3c236d3-4058-469c-aead-b0d16c700d92"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{GROSS_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="619" y="0" width="35" height="18" uuid="dceb1717-27b4-4eb7-8aff-5be21ecc4d33"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_LOAN_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="697" y="0" width="36" height="18" uuid="e5f711e0-08fe-43c2-9a9e-5383870c32d0"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_AIT_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="537" y="0" width="35" height="18" uuid="8a0dfdd2-16f8-43a9-bbc3-d44ee846bfcb"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_RPF_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="733" y="0" width="38" height="18" uuid="7589831e-671c-4728-b570-056b1b51971d"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_OTHER_DEDUCTION_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="771" y="0" width="41" height="18" uuid="2be04ffa-08a2-4843-adc4-ac1d783386c8"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_ABSENT_DEDUCTION_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="812" y="0" width="38" height="18" uuid="11020a60-1830-4cbb-8d85-d48b49c0cacb"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_FOOD_DEDUCTION_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="850" y="0" width="40" height="18" uuid="ed0e2079-3afc-4ada-a1d9-d8954fc52322"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PRL_ELMNT_CONVEYANCE_DEDUCTION_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="890" y="0" width="48" height="18" uuid="6d1adb51-caf6-4f71-b56c-5879f9f9d014"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_DEDUCTION_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="938" y="0" width="54" height="18" uuid="e0a09637-1386-4e60-9e36-49957f628c20"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{NET_PAYABLE_AMOUNT_3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="992" y="0" width="45" height="18" uuid="0e5b1c99-cb0b-45aa-ae83-01145222646e"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="72" height="18" uuid="de9798e6-120a-4265-a1a3-7f9431bfe8ec"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[GRAND TOTAL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="0" width="240" height="18" uuid="551cccc9-637b-492e-8ef6-5773a8f93ce0"/>
+				<box leftPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total Employee(s): "+$V{EMP_NAME_5}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="654" y="0" width="43" height="18" uuid="475c3700-de2d-43d1-bc06-0ce92abe46e0"/>
+				<box rightPadding="2">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{AWARD_3}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

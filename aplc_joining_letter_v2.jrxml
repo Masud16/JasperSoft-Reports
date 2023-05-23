@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aplc_joining_letter" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6eb35164-d4e1-4925-8b63-c273009f16da">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_APLC_CODE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+  CODE, 
+  SL_NO, 
+  TITLE, 
+  national_identity_number VOTER_IDENTITY_NUMBER, 
+  MOB_CODE, 
+  EMAIL, 
+  SALARY, 
+  (
+    SELECT 
+      DISTINCT (DESIGNATION) from HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      emp_status = 'ACTIVE' 
+      AND DESIGNATION_ORDER = cast(A.DESIGNATION as integer)
+      limit 1
+  ) DESIGNATION, 
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      ALKP 
+    WHERE 
+      ID = cast(A.CATEGORY as integer)
+  ) CATEGORY, 
+  TO_CHAR (JOINING_DATE, 'MONTH DD, RRRR') JOINING_DATE, 
+  (
+    SELECT 
+      DISTINCT OPERATING_UNIT_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_OPERATING_UNIT_ID = cast(A.ALL_ORG_OPERATING_UNIT_ID as integer)
+  ) OPERATING_UNIT_TITLE, 
+  (
+    SELECT 
+      DISTINCT PRODUCT_GROUP_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALKP_PRODUCT_GROUP_ID = cast(A.ALKP_PRODUCT_GROUP_ID as integer)
+  ) ALKP_PRODUCT_GROUP_TITLE, 
+  (
+    SELECT 
+      DISTINCT PRODUCT_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_PRODUCT_ID = cast(A.ALL_ORG_MST_PRODUCT_ID as integer)
+  ) PRODUCT_TITLE, 
+  (
+    SELECT 
+      DISTINCT DEPARTMENT_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_DEPARTMENT_ID = cast( A.ALL_ORG_MST_DEPARTMENT_ID as integer)
+  ) DEPARTMENT_TITLE, 
+  (
+    SELECT 
+      DISTINCT SECTION_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_SECTION_ID = cast( A.ALL_ORG_MST_SECTION_ID as integer)
+  ) SECTION_TITLE, 
+  (
+    SELECT 
+      DISTINCT SUB_SECTION_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_SUB_SECTION_ID = cast( A.ALL_ORG_MST_SUB_SECTION_ID as integer)
+  ) SUB_SECTION_TITLE, 
+  (
+    SELECT 
+      DISTINCT TEAM_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_TEAM_ID = cast( A.ALL_ORG_MST_TEAM_ID as integer)
+  ) TEAM_TITLE, 
+  (
+    SELECT 
+      DISTINCT SUB_TEAM_TITLE 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_SUB_TEAM_ID = cast( A.ALL_ORG_MST_SUB_TEAM_ID as integer)
+  ) SUB_TEAM_TITLE, 
+  (
+    SELECT 
+      CASE WHEN OPERATING_UNIT_TITLE = 'WalCart Limited' THEN 'WCART' WHEN OPERATING_UNIT_TITLE = 'Walton Digi-Tech Industries Ltd.' THEN 'WDTIL' WHEN OPERATING_UNIT_TITLE = 'Walton Micro-Tech Corporation' THEN 'WMTC' WHEN OPERATING_UNIT_TITLE = 'Bangla Emirate Aquaculture Ltd.' THEN 'BEAL' WHEN OPERATING_UNIT_TITLE = 'Walton Agro Farm and Industries' THEN 'WAFI' WHEN OPERATING_UNIT_TITLE = 'Walton Plaza' THEN 'WPZT' WHEN OPERATING_UNIT_TITLE = 'Dream Park International' THEN 'DPI' WHEN OPERATING_UNIT_TITLE = 'Walton Trustee Board' THEN 'WTB' WHEN OPERATING_UNIT_TITLE = 'Walton Chemical Industries Ltd' THEN 'WCIL' WHEN OPERATING_UNIT_TITLE = 'Walton Hi-Tech Industries Ltd.' THEN 'WHIL' WHEN OPERATING_UNIT_TITLE = 'Walton Hi-Tech Industries PLC' THEN 'WHIPLC' WHEN OPERATING_UNIT_TITLE = 'Walton Shipping  & Logistics' THEN 'WSL' WHEN OPERATING_UNIT_TITLE = 'Walton Corporation Ltd.' THEN 'WCL' WHEN OPERATING_UNIT_TITLE = 'Walton Group' THEN 'WG' WHEN OPERATING_UNIT_TITLE = 'RB Group of Companies Ltd.' THEN 'RBG' END 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT  
+    WHERE 
+      EMP_STATUS = 'ACTIVE' 
+      AND ALL_ORG_MST_OPERATING_UNIT_ID = cast( A.ALL_ORG_OPERATING_UNIT_ID as integer)
+      limit 1
+  ) OU_TITLE_SHORT 
+FROM 
+  HR_IR_APLC A 
+WHERE 
+  CODE = $P{P_APLC_CODE}]]>
+	</queryString>
+	<field name="code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="code"/>
+		<property name="com.jaspersoft.studio.field.label" value="code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="sl_no" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="sl_no"/>
+		<property name="com.jaspersoft.studio.field.label" value="sl_no"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="title"/>
+		<property name="com.jaspersoft.studio.field.label" value="title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="voter_identity_number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="voter_identity_number"/>
+		<property name="com.jaspersoft.studio.field.label" value="voter_identity_number"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="mob_code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="mob_code"/>
+		<property name="com.jaspersoft.studio.field.label" value="mob_code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="email"/>
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="salary" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="salary"/>
+		<property name="com.jaspersoft.studio.field.label" value="salary"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="designation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="designation"/>
+		<property name="com.jaspersoft.studio.field.label" value="designation"/>
+	</field>
+	<field name="category" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="category"/>
+		<property name="com.jaspersoft.studio.field.label" value="category"/>
+	</field>
+	<field name="joining_date" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="joining_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="joining_date"/>
+	</field>
+	<field name="operating_unit_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="operating_unit_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="operating_unit_title"/>
+	</field>
+	<field name="alkp_product_group_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="alkp_product_group_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="alkp_product_group_title"/>
+	</field>
+	<field name="product_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="product_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="product_title"/>
+	</field>
+	<field name="department_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="department_title"/>
+	</field>
+	<field name="section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="section_title"/>
+	</field>
+	<field name="sub_section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="sub_section_title"/>
+	</field>
+	<field name="team_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="team_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="team_title"/>
+	</field>
+	<field name="sub_team_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_team_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="sub_team_title"/>
+	</field>
+	<field name="ou_title_short" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ou_title_short"/>
+		<property name="com.jaspersoft.studio.field.label" value="ou_title_short"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="569" splitType="Stretch">
+			<textField pattern="MMMMM dd, yyyy" isBlankWhenNull="true">
+				<reportElement x="22" y="21" width="208" height="20" uuid="793ab366-4ea1-497c-a726-1b0c243654d5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{joining_date}==null? "Date: " : "Date: "+ $F{joining_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="22" y="76" width="208" height="20" uuid="05a378f3-2b50-4ac6-9de3-95dc464b23ad"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="100" width="285" height="16" uuid="86f2f4b6-083c-4b60-a9ba-2c1757ad6edc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Head of HRM Department ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="22" y="122" width="307" height="16" uuid="5ef80780-cd37-4d17-9ecf-4e578a12f156"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{operating_unit_title} == null ? "": $F{operating_unit_title}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="22" y="142" width="307" height="17" uuid="a704a9c8-eb3c-46c7-bc7b-c5e26b2a20a2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Chandra, Kaliakoir, Gazipur.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="193" width="208" height="20" uuid="3a938ff5-3066-42f6-9c46-b0c2dcc2a22a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Dear Sir,]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="22" y="227" width="505" height="79" uuid="b4f40680-a923-4bb1-a1ce-2e6ff93ee000"/>
+				<textElement verticalAlignment="Top">
+					<font size="12"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["I have the honor to inform you that I am joining "+($F{operating_unit_title}==null? " ":$F{operating_unit_title})+"from today as "+ ($F{category}==null? " ":$F{category})+" "+ ($F{designation}==null? " ":$F{designation})+"under the Department of "+($F{department_title}==null? " ":$F{department_title})+" in "+($F{section_title}==null? " ":$F{section_title})+" Section in respect to your appointment letter dated "+ ($F{joining_date}==null? " ":$F{joining_date})+" Ref: WHIPLC/HRM/Appoint/2021-2022/"+ ($F{sl_no}  !=null?  $F{sl_no}: "")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="22" y="337" width="505" height="20" uuid="3ea0406f-3bb9-44ee-a06a-1be55fe7152b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[I kindly request you to accept my joining letter.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="388" width="505" height="20" uuid="f28f8873-f00a-45a4-973b-049d75bbc910"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Best regards,]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="22" y="521" width="136" height="20" uuid="74bdb970-fe4f-4dbc-a065-7dedf0aae09e"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Dashed"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

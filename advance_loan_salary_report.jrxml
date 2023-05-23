@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Advance_Loan_Salary_Report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" isIgnorePagination="true" uuid="67791163-4a77-4e10-a6e6-8792253a3203">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="292"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_Application_No" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+  E.emp_code ID, 
+  E.emp_code AS "EMPLOYEE ID", 
+  E.emp_name AS "EMPLOYEE NAME", 
+  E.emp_name || ' (' || E.emp_code || ')' APPLY_NAME, 
+  E.GROSS, 
+  fx_numtowords(E.GROSS) SPELL_GROSS, 
+  L.amount_applied, 
+  L.REASON_FOR_LOAN, 
+  fx_numtowords(L.amount_applied :: bigint) SPELL_AMT_APPLID_FOR, 
+  fx_numtowords(L.sanction_amount :: bigint) SPELL_AMT_SANCTION, 
+  L.CODE APPLICAION_ID, 
+  to_char(L.application_date, 'DD-MON-RRRR') APP_DATE, 
+  L.sanction_amount, 
+  L.installment_amount REPAY_AMT, 
+  fx_numtowords(L.installment_amount :: bigint ) SPELL_REPAY_AMT, 
+  (
+    L.sanction_amount - (
+      SELECT 
+        SUM (AMNT) 
+      FROM 
+        hr_loan_receive_details 
+      WHERE 
+        loan_application_id = L.ID
+    )
+  ) PREV_BALANCE, 
+  fx_numtowords((
+    L.sanction_amount - (
+      SELECT 
+        SUM (AMNT) 
+      FROM 
+        hr_loan_receive_details
+      WHERE 
+        loan_application_id = L.ID
+    )):: bigint
+  ) SPEL_PREV_BALANCE, 
+  E.DESIGNATION, 
+  E.ALL_ORG_ID ORG_ID, 
+  E.OPERATING_UNIT_TITLE, 
+  E.DEPARTMENT_TITLE DEPT, 
+  E.LOCATION_TITLE LOCATION, 
+  E.ALKP_JOB_ID 
+FROM 
+  hr_cr_emp_primary_assgnmnt E, 
+  hr_loan_application L 
+WHERE 
+  L.EMP_ID = E.HR_CR_EMP_ID
+  AND L.CODE = $P{P_Application_No}]]>
+	</queryString>
+	<field name="id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="EMPLOYEE ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="EMPLOYEE ID"/>
+		<property name="com.jaspersoft.studio.field.label" value="EMPLOYEE ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="EMPLOYEE NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="EMPLOYEE NAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="EMPLOYEE NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="apply_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="apply_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="apply_name"/>
+	</field>
+	<field name="gross" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="gross"/>
+		<property name="com.jaspersoft.studio.field.label" value="gross"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="spell_gross" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="spell_gross"/>
+		<property name="com.jaspersoft.studio.field.label" value="spell_gross"/>
+	</field>
+	<field name="amount_applied" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="amount_applied"/>
+		<property name="com.jaspersoft.studio.field.label" value="amount_applied"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_loan_application"/>
+	</field>
+	<field name="reason_for_loan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="reason_for_loan"/>
+		<property name="com.jaspersoft.studio.field.label" value="reason_for_loan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_loan_application"/>
+	</field>
+	<field name="spell_amt_applid_for" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="spell_amt_applid_for"/>
+		<property name="com.jaspersoft.studio.field.label" value="spell_amt_applid_for"/>
+	</field>
+	<field name="spell_amt_sanction" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="spell_amt_sanction"/>
+		<property name="com.jaspersoft.studio.field.label" value="spell_amt_sanction"/>
+	</field>
+	<field name="applicaion_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="applicaion_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="applicaion_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_loan_application"/>
+	</field>
+	<field name="app_date" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="app_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="app_date"/>
+	</field>
+	<field name="sanction_amount" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="sanction_amount"/>
+		<property name="com.jaspersoft.studio.field.label" value="sanction_amount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_loan_application"/>
+	</field>
+	<field name="repay_amt" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="repay_amt"/>
+		<property name="com.jaspersoft.studio.field.label" value="repay_amt"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_loan_application"/>
+	</field>
+	<field name="spell_repay_amt" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="spell_repay_amt"/>
+		<property name="com.jaspersoft.studio.field.label" value="spell_repay_amt"/>
+	</field>
+	<field name="prev_balance" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="prev_balance"/>
+		<property name="com.jaspersoft.studio.field.label" value="prev_balance"/>
+	</field>
+	<field name="spel_prev_balance" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="spel_prev_balance"/>
+		<property name="com.jaspersoft.studio.field.label" value="spel_prev_balance"/>
+	</field>
+	<field name="designation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="designation"/>
+		<property name="com.jaspersoft.studio.field.label" value="designation"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="org_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="org_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="org_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="operating_unit_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="operating_unit_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="operating_unit_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="dept" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="dept"/>
+		<property name="com.jaspersoft.studio.field.label" value="dept"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="location" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="location"/>
+		<property name="com.jaspersoft.studio.field.label" value="location"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="alkp_job_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="alkp_job_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="alkp_job_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="23" width="555" height="26" uuid="493dfbb3-8552-47a9-af5f-58860eec3559"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Application  for Loan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="483" y="34" width="72" height="13" uuid="d604a85d-b82b-407c-b6e3-e93ae80fc6f6"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ver: 1.0.0]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="483" y="23" width="72" height="13" uuid="d604a85d-b82b-407c-b6e3-e93ae80fc6f6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HRD/3/059]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="2" y="48" width="553" height="20" uuid="6ed83725-e136-48fd-bcdd-a4c1e96a03c2"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{operating_unit_title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="133" splitType="Stretch">
+			<staticText>
+				<reportElement x="33" y="26" width="83" height="17" uuid="6a6e5843-7cf0-468d-aba1-c678f30573bc"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Application No :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="44" width="37" height="17" uuid="8dbfc718-4abe-45ae-9541-3dde48068fec"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="70" y="44" width="151" height="17" uuid="4e8db30c-a22c-4d93-adb6-283d52d4e22f"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{app_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="26" width="105" height="17" uuid="60054ab9-467e-4591-b2a5-eb8fcd658c79"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{applicaion_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="33" y="62" width="25" height="17" uuid="2d0b56f7-aa56-45ac-9b7c-2e9b1e39fe1d"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="80" width="208" height="17" uuid="53458f7d-ca0d-4aff-b91c-1619a14ca2eb"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[The Managing Director]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="116" width="264" height="17" uuid="7b650a3a-5221-4727-acc0-982945030e23"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Application  for Advance  Against  Salary.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="116" width="47" height="17" uuid="49c9b2e1-84f8-479a-accf-5645720bcab2"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Subject :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="33" y="97" width="311" height="20" uuid="c0339c7b-4630-4c32-bf38-814923040ebe"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{operating_unit_title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="264">
+			<staticText>
+				<reportElement x="34" y="148" width="118" height="18" uuid="435601a9-0036-403b-83fc-17a553a60452"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Loan Amount :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="178" width="118" height="18" uuid="8bb59dee-9ce6-47a9-bb55-c1db33b66219"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gross Salary :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="156" y="179" width="126" height="18" uuid="dfeb7d18-1ca6-4a81-93ae-0d9f5bbd7f06"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gross}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="297" y="178" width="61" height="18" uuid="643b8b67-bf87-49af-bff9-f6f440936e15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[In Word  :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="366" y="178" width="189" height="18" uuid="0aac48fb-d8db-4009-8879-0967894ca8ae"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{spell_gross}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="34" y="207" width="118" height="18" uuid="19ec7386-0b93-45ed-9f25-4b2940593417"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Repayment  Amount :]]></text>
+			</staticText>
+			<textField pattern="###0.00;###0.00-" isBlankWhenNull="true">
+				<reportElement x="156" y="207" width="126" height="18" uuid="b0cf304e-dfac-4e5b-8625-150a9266fb3a"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{repay_amt}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="297" y="207" width="61" height="18" uuid="cc1bbefb-d41a-4805-8b87-de816bfaabff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[In Word  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="236" width="118" height="18" uuid="ae4be42e-7cc6-41ef-9038-9632ea845511"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Previous Balance :]]></text>
+			</staticText>
+			<textField pattern="###0.00;###0.00-" isBlankWhenNull="true">
+				<reportElement x="156" y="236" width="126" height="18" uuid="e0667422-c59d-4800-900e-85fe20745484"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prev_balance}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="297" y="236" width="61" height="18" uuid="b278e39f-e1e5-4568-8ff3-2ea1542a61b4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[In Word  :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="366" y="236" width="189" height="18" uuid="3463a3f5-50d2-4607-b2ea-77aff193a58c"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{spel_prev_balance}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="34" y="114" width="118" height="18" uuid="2f497f2c-69ef-4f75-9576-7c007a76edb4"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reason For Loan   :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="152" y="114" width="403" height="18" uuid="e1c678b5-e334-4296-bce0-060db99ce501"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reason_for_loan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="34" y="46" width="47" height="14" uuid="4f2f5807-2f0d-482c-beec-fc74eca5f0d2"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Dear Sir,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="68" width="521" height="36" uuid="fcb9b97a-6bf0-435d-be77-816d17ec61e3"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[With humble submission , I the undersigned  request for  advance against salary and describing the facts of availing the  loan .]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="148" width="61" height="18" uuid="25470329-5e48-4b49-84c5-14b43134625c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[In Word  :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="366" y="207" width="189" height="18" uuid="9658a233-f79d-450f-91fe-cc61ee787048"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{spell_repay_amt}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="156" y="146" width="126" height="20" uuid="30bc8322-48cc-4202-8fd3-7426e15e74ed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sanction_amount}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="366" y="146" width="189" height="20" uuid="30a6f7aa-c1f8-45d4-b702-bcaf2cdb60b6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{spell_amt_sanction}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="152" y="169" width="126" height="1" uuid="008623ff-953b-4495-bdd7-13c855972f01"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="366" y="167" width="189" height="1" uuid="008623ff-953b-4495-bdd7-13c855972f01"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="106" splitType="Stretch">
+			<staticText>
+				<reportElement x="34" y="12" width="521" height="46" uuid="87abf56c-2cfb-4a42-bd85-fcf740de1ee1"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[I, with my full sense and knowledge hereby declare  I shall repay / adjust  the loan amount from my monthly salary and if I resign from my  job or if my job is terminated  by the company/ employer if any reasonable cause, I will pay back all outstanding  balance of advance taken from the company.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="71" width="521" height="21" uuid="0059b37e-6e4a-44b2-9b26-08194bd091b1"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[I pray your kind consideration in this matter .]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="215" splitType="Stretch">
+			<textField>
+				<reportElement x="36" y="50" width="208" height="18" uuid="4d7ce8db-6677-466a-8906-1f8575fefba1"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apply_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="36" y="3" width="103" height="18" uuid="e7756cd3-e786-4e74-b451-1ce57480a4e4"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sincerely Yours,]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="36" y="70" width="153" height="18" uuid="536d88ca-2621-4534-b33b-b1cc5e04e729"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="41" y="175" width="159" height="38" uuid="be0ce873-8824-473b-bb24-8f6c4674d502"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Recommend By Department Head]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="383" y="175" width="160" height="38" uuid="be0ce873-8824-473b-bb24-8f6c4674d502"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Approved By Management]]></text>
+			</staticText>
+			<line>
+				<reportElement x="383" y="174" width="170" height="1" uuid="7ef26685-0893-4c0c-9ac0-3e2e77e58d85"/>
+			</line>
+			<line>
+				<reportElement x="40" y="173" width="170" height="1" uuid="7ef26685-0893-4c0c-9ac0-3e2e77e58d85"/>
+			</line>
+			<textField>
+				<reportElement x="36" y="88" width="200" height="20" uuid="ca3a08fe-3b83-4fa0-8684-526f4b3925c4"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dept}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="36" y="108" width="212" height="20" uuid="05135642-cbaf-4692-9e70-f97b9d855801"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{location}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="237" y="198" width="44" height="17" uuid="32af2373-e306-4ef0-8163-2f16a0ca9cee"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="281" y="198" width="39" height="17" uuid="93e35ba9-40ee-4a26-942c-ed35f6d5cb0a"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

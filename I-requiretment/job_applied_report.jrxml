@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="test_report" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cd678e9d-63e9-48bf-8e2e-8a7d3ecfd85d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_ID" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="JOB_INIT_FROM" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="JOB_INIT_TO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="JOB_REQ_FROM" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="JOB_REQ_TO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+  V.ID,
+  V.TITLE AS JOB_TITLE, 
+  V.VCNCY_TOT AS TOTAL_VACANCY, 
+  V.crclr_date AS DATE_POSTED, 
+  V.required_within AS DATE_DEADLINE, 
+  M.APPLIED 
+FROM 
+  HR_IR_VCNCY V 
+  LEFT JOIN (
+    SELECT 
+      HR_IR_VCNCY_ID, 
+      COUNT(*) APPLIED 
+    FROM 
+      HR_IR_APLC_JOB_APPLD  
+    GROUP BY 
+      HR_IR_VCNCY_ID
+  ) M ON V.ID = M.HR_IR_VCNCY_ID
+WHERE 
+-- V.required_within between '2023-02-01' and '2023-03-31'
+-- and V.crclr_date between '2023-02-01' and '2023-03-31'
+  (
+    $P{P_ID} is null 
+    or V.ID = $P{P_ID}
+  ) 
+  and (
+    $P{JOB_INIT_FROM} is null 
+    or $P{JOB_INIT_TO} is null 
+    or (
+      V.crclr_date between to_date($P{JOB_INIT_FROM},'YYYY-MM-DD')
+      and to_date($P{JOB_INIT_TO},'YYYY-MM-DD')
+    )
+  ) 
+  and (
+    $P{JOB_REQ_FROM} is null 
+    or $P{JOB_REQ_TO} is null 
+    or (
+      V.required_within between to_date($P{JOB_REQ_FROM},'YYYY-MM-DD')
+      and to_date($P{JOB_REQ_TO},'YYYY-MM-DD')
+    )
+  )
+]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_vcncy"/>
+	</field>
+	<field name="job_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="job_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="job_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_vcncy"/>
+	</field>
+	<field name="total_vacancy" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="total_vacancy"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_vacancy"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_vcncy"/>
+	</field>
+	<field name="date_posted" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="date_posted"/>
+		<property name="com.jaspersoft.studio.field.label" value="date_posted"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_vcncy"/>
+	</field>
+	<field name="date_deadline" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="date_deadline"/>
+		<property name="com.jaspersoft.studio.field.label" value="date_deadline"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_vcncy"/>
+	</field>
+	<field name="applied" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="applied"/>
+		<property name="com.jaspersoft.studio.field.label" value="applied"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="24" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="218" y="4" width="147" height="20" uuid="893504f1-c6dc-4f21-9d2c-8d5e2df62cc9"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job Applied Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="17" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="35" y="6" width="412" height="9" uuid="9a5f35c2-1788-49f2-9165-f9520ec49c89"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Print Date and Time: "+(new SimpleDateFormat("EEEEE, d MMMMM yyyy hh:mm:ss aaa")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="35" y="1" width="100" height="20" forecolor="#080707" backcolor="#D1D0CE" uuid="2e3f5982-6e39-4069-a2fa-f4ca0dfa94a6"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job Title]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="135" y="1" width="100" height="20" forecolor="#080707" backcolor="#D1D0CE" uuid="e70a784a-a607-4206-8bf7-f6895ab285dc"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Vacancy]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="235" y="1" width="100" height="20" forecolor="#080707" backcolor="#D1D0CE" uuid="c6481a41-12c4-4645-8675-2e17e01150e3"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date Posted]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="335" y="1" width="100" height="20" forecolor="#080707" backcolor="#D1D0CE" uuid="1ab02524-8e3d-4d3b-af9e-d373c272ece5"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date Deadline]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="435" y="1" width="100" height="20" forecolor="#080707" backcolor="#D1D0CE" uuid="52a28008-49e8-44b2-8422-ecfb31c79cec"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Applied]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="35" y="0" width="100" height="20" uuid="a3ef5f72-cd9f-41fe-9c2a-0c7b5bbc9c6d"/>
+				<box leftPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{job_title}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="135" y="0" width="100" height="20" uuid="81575f5a-86fb-4903-9b5b-a6d1be170f62"/>
+				<box leftPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_vacancy}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+				<reportElement x="235" y="0" width="100" height="20" uuid="e7df39dd-c5d5-4e3e-babc-1f30a9d8b57b"/>
+				<box leftPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{date_posted}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+				<reportElement x="335" y="0" width="100" height="20" uuid="f77a36b1-a80c-4571-b9c6-32e0d2a57734"/>
+				<box leftPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{date_deadline}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="435" y="0" width="100" height="20" uuid="51787b53-e95b-41f1-a077-18a60db6a1de"/>
+				<box leftPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{applied}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="35" y="30" width="278" height="14" uuid="31de7685-2fec-459d-acd3-9f8b571caff5"/>
+				<box leftPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Design and developed by: Walton Digi-Tech Ind. Ltd.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="390" y="29" width="128" height="17" uuid="931413c9-f13f-4295-9e01-201825972406">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="518" y="29" width="16" height="17" uuid="a66408d2-c4c1-474e-95e0-c6787c759595"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="35" y="24" width="500" height="3" uuid="523b6450-469d-46bb-a140-cb0a0bb9127c"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</summary>
+</jasperReport>

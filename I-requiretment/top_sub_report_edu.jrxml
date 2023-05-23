@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="top_sub_report_edu" language="groovy" pageWidth="538" pageHeight="120" columnWidth="538" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f052bde2-878f-44e2-95ba-1a4eadd2fa6f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_CODE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+            (SELECT TITLE FROM ALKP WHERE ID=b.ALKP_EDU_ID) edu_TIttle,
+            (SELECT TITLE FROM ALKP WHERE ID=b.ALKP_SUB_GRP_ID) SUBJECT,
+             (SELECT TITLE FROM ALKP WHERE ID=b.ALKP_UNIVERSITY_ID) UNIVERSITY,
+             (SELECT TITLE FROM ALKP WHERE ID=b.ALKP_EDU_BOARD_ID) BOARD,
+             b.PASSING_YEAR,
+             b.RESULT,
+             b.RESULT_OUT_OF,
+             b.title_insitute
+ FROM HR_IR_APLC a,HR_IR_APLC_EDU b
+ WHERE a.ID=b.HR_IR_APLC_ID
+ AND a.CODE=$P{P_CODE}
+ ORDER BY PASSING_YEAR DESC]]>
+	</queryString>
+	<field name="edu_tittle" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="edu_tittle"/>
+		<property name="com.jaspersoft.studio.field.label" value="edu_tittle"/>
+	</field>
+	<field name="subject" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="subject"/>
+		<property name="com.jaspersoft.studio.field.label" value="subject"/>
+	</field>
+	<field name="university" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="university"/>
+		<property name="com.jaspersoft.studio.field.label" value="university"/>
+	</field>
+	<field name="board" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="board"/>
+		<property name="com.jaspersoft.studio.field.label" value="board"/>
+	</field>
+	<field name="passing_year" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="passing_year"/>
+		<property name="com.jaspersoft.studio.field.label" value="passing_year"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc_edu"/>
+	</field>
+	<field name="result" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="result"/>
+		<property name="com.jaspersoft.studio.field.label" value="result"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc_edu"/>
+	</field>
+	<field name="result_out_of" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="result_out_of"/>
+		<property name="com.jaspersoft.studio.field.label" value="result_out_of"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc_edu"/>
+	</field>
+	<field name="title_insitute" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="title_insitute"/>
+		<property name="com.jaspersoft.studio.field.label" value="title_insitute"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc_edu"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="317" y="0" width="81" height="21" backcolor="#F0F0F0" uuid="2180260b-a029-4d86-a568-953932f8798f"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Group]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="109" y="0" width="141" height="21" backcolor="#F0F0F0" uuid="3ed850a6-c83c-4d99-8ee8-9c5a4d03f668"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Institute]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="250" y="0" width="67" height="21" backcolor="#F0F0F0" uuid="c5860c70-bff6-4aad-9fa2-11fccfbf6e59"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Board]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="398" y="0" width="43" height="21" backcolor="#F0F0F0" uuid="436c511f-03e7-4d42-a10e-5cee1578700c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Year]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="109" height="21" backcolor="#F0F0F0" uuid="2cdb2cc0-9b4b-467c-9db1-f36f7def544f"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Certificate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="441" y="0" width="96" height="21" backcolor="#F0F0F0" uuid="13cabd5c-d05f-4db2-b98e-1254a4d48de1"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Result/GPA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="0" width="67" height="24" uuid="a0edfdae-f195-4997-a7b6-3ce4c9671267"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{board}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="317" y="0" width="81" height="24" uuid="b4b44c9c-9213-4051-ac09-8d04679b784e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subject}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="441" y="0" width="96" height="24" uuid="1fd4ce96-a6e6-4b77-b571-ea2709f18e61"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{result}+" out of "+$F{result_out_of}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="398" y="0" width="43" height="24" uuid="d8528369-9494-4ba1-bc97-5ed1fb87b158"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{passing_year}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="109" height="24" uuid="e62e568a-ce78-473d-94f5-b046a98dcfde"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{edu_tittle}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="109" y="0" width="141" height="24" uuid="4cdbd60f-fb99-4caa-b466-fd67a55b2bfe"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{title_insitute}==null ?
+    $F{university} : $F{title_insitute} )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

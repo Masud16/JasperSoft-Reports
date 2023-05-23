@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="appointment_letter_officer_level" language="groovy" pageWidth="595" pageHeight="700" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ea2807f0-87ab-4970-9eb1-4bb760688adb">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_APLC_CODE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[000002]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\HRMS\\Application\\HRMS\\web-app\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+  CODE, 
+  SL_NO, 
+  TITLE, 
+  national_identity_number VOTER_IDENTITY_NUMBER, 
+  MOB_CODE, 
+  EMAIL, 
+  FATHER_NAME, 
+  MOTHER_NAME, 
+  SALARY, 
+  (SALARY) IN_WORD_SAL, 
+  A.ALKP_GENDER_ID, 
+  SPOUSE_NAME, 
+  permanent_address ADDRSS_PRMNT,
+  permnt_union ADDRSS_PRMNT_VILL, 
+  ADDRSS_PRMNT_PO, 
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      ALKP 
+    WHERE 
+      ID = A.ALL_LOC_ADDRSS_PRMNT_ID
+  ) ADDRSS_PRMNT_PS, 
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      ALKP 
+    WHERE 
+      ID in (
+        SELECT 
+          PARENT_ID 
+        FROM 
+          ALKP 
+        WHERE 
+          ID = A.ALL_LOC_ADDRSS_PRMNT_ID
+      )
+  ) ADDRSS_PRMNT_DIST, 
+   present_address ADDRSS_PRSNT_VILL, 
+  ADDRSS_PRSNT_PO, 
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      ALKP 
+    WHERE 
+      ID = A.ALL_LOC_ADDRSS_PRSNT_ID
+  ) ADDRSS_PRSNT_PS, 
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      ALKP 
+    WHERE 
+      ID in (
+        SELECT 
+          PARENT_ID 
+        FROM 
+          ALKP 
+        WHERE 
+          ID = A.ALL_LOC_ADDRSS_PRSNT_ID
+      )
+  ) ADDRSS_PRSNT_DIST, 
+  A.DESIGNATION DESIGNATION_ORDER, 
+  (
+    SELECT 
+      DISTINCT (DESIGNATION) 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      EMP_Status = 'ACTIVE' 
+       AND DESIGNATION_ORDER = cast(A.DESIGNATION as integer)
+  ) DESIGNATION, 
+   (
+     SELECT 
+       TITLE 
+     FROM 
+       ALKP 
+     WHERE 
+        ID = A.CATEGORY::integer
+   ) CATEGORY, 
+  PROBATION_DURATION, 
+  PRIME_DUTY, 
+   JOINING_DATE, 
+   (
+     SELECT 
+       TITLE 
+     FROM 
+       ALKP 
+     WHERE 
+       ID = Cast(A.JOB_LOCATION_ID as integer)
+   ) JOB_LOCATION_ID, 
+   (
+     SELECT 
+       DISTINCT OPERATING_UNIT_TITLE 
+     FROM 
+       HR_CR_EMP_PRIMARY_ASSGNMNT 
+     WHERE 
+       EMP_STATUS = 'ACTIVE' 
+       AND ALL_ORG_MST_OPERATING_UNIT_ID = cast(A.ALL_ORG_OPERATING_UNIT_ID as integer)
+   ) OPERATING_UNIT_TITLE, 
+   (
+     SELECT 
+       DISTINCT PRODUCT_GROUP_TITLE 
+     FROM 
+       HR_CR_EMP_PRIMARY_ASSGNMNT 
+     WHERE 
+       EMP_STATUS = 'ACTIVE' 
+       AND ALKP_PRODUCT_GROUP_ID = cast(A.ALKP_PRODUCT_GROUP_ID as integer)
+   ) ALKP_PRODUCT_GROUP_TITLE, 
+   (
+     SELECT 
+       DISTINCT PRODUCT_TITLE 
+     FROM 
+       HR_CR_EMP_PRIMARY_ASSGNMNT 
+     WHERE 
+       EMP_STATUS = 'ACTIVE' 
+       AND ALL_ORG_MST_PRODUCT_ID = cast(A.ALL_ORG_MST_PRODUCT_ID as integer)
+   ) PRODUCT_TITLE, 
+   (
+     SELECT 
+       DISTINCT DEPARTMENT_TITLE 
+     FROM 
+       HR_CR_EMP_PRIMARY_ASSGNMNT 
+     WHERE 
+       EMP_STATUS = 'ACTIVE' 
+       AND ALL_ORG_MST_DEPARTMENT_ID = cast(A.ALL_ORG_MST_DEPARTMENT_ID as integer)
+   ) DEPARTMENT_TITLE, 
+   (
+     SELECT 
+       DISTINCT SECTION_TITLE 
+     FROM 
+       HR_CR_EMP_PRIMARY_ASSGNMNT 
+     WHERE 
+       EMP_STATUS = 'ACTIVE' 
+       AND ALL_ORG_MST_SECTION_ID = cast(A.ALL_ORG_MST_SECTION_ID as integer)
+   ) SECTION_TITLE, 
+   (
+     SELECT 
+       DISTINCT SUB_SECTION_TITLE 
+     FROM 
+       HR_CR_EMP_PRIMARY_ASSGNMNT 
+     WHERE 
+       EMP_STATUS = 'ACTIVE' 
+       AND ALL_ORG_MST_SUB_SECTION_ID = cast(A.ALL_ORG_MST_SUB_SECTION_ID as integer)
+   ) SUB_SECTION_TITLE, 
+    (
+      SELECT 
+        DISTINCT TEAM_TITLE 
+      FROM 
+        HR_CR_EMP_PRIMARY_ASSGNMNT 
+      WHERE 
+        EMP_STATUS = 'ACTIVE' 
+        AND ALL_ORG_MST_TEAM_ID = cast(A.ALL_ORG_MST_TEAM_ID as integer)
+   ) TEAM_TITLE, 
+   (
+     SELECT 
+       DISTINCT SUB_TEAM_TITLE 
+     FROM 
+       HR_CR_EMP_PRIMARY_ASSGNMNT 
+     WHERE 
+       EMP_STATUS = 'ACTIVE' 
+       AND ALL_ORG_MST_SUB_TEAM_ID = cast(A.ALL_ORG_MST_SUB_TEAM_ID as integer)
+   ) SUB_TEAM_TITLE, 
+   (
+     SELECT 
+       CASE WHEN OPERATING_UNIT_TITLE = 'WalCart Limited' THEN 'WCART' WHEN OPERATING_UNIT_TITLE = 'Walton Digi-Tech Industries Ltd.' THEN 'WDTIL' WHEN OPERATING_UNIT_TITLE = 'Walton Micro-Tech Corporation' THEN 'WMTC' WHEN OPERATING_UNIT_TITLE = 'Bangla Emirate Aquaculture Ltd.' THEN 'BEAL' WHEN OPERATING_UNIT_TITLE = 'Walton Agro Farm and Industries' THEN 'WAFI' WHEN OPERATING_UNIT_TITLE = 'Walton Plaza' THEN 'WPZT' WHEN OPERATING_UNIT_TITLE = 'Dream Park International' THEN 'DPI' WHEN OPERATING_UNIT_TITLE = 'Walton Trustee Board' THEN 'WTB' WHEN OPERATING_UNIT_TITLE = 'Walton Chemical Industries Ltd' THEN 'WCIL' WHEN OPERATING_UNIT_TITLE = 'Walton Hi-Tech Industries PLC.' THEN 'WHIPLC' WHEN OPERATING_UNIT_TITLE = 'Walton Shipping  & Logistics' THEN 'WSL' WHEN OPERATING_UNIT_TITLE = 'Walton Corporation Ltd.' THEN 'WCL' WHEN OPERATING_UNIT_TITLE = 'Walton Group' THEN 'WG' WHEN OPERATING_UNIT_TITLE = 'RB Group of Companies Ltd.' THEN 'RBG' END 
+     FROM 
+       HR_CR_EMP_PRIMARY_ASSGNMNT as X 
+     WHERE 
+       EMP_STATUS = 'ACTIVE' 
+       AND ALL_ORG_MST_OPERATING_UNIT_ID = cast(A.ALL_ORG_OPERATING_UNIT_ID as integer)
+       
+   ) OU_TITLE_SHORT, 
+  CASE WHEN cast(A.DESIGNATION as integer) < 37 THEN (
+    SELECT 
+      EMP_NAME 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      DEPARTMENT_TITLE = 'HRM' 
+      AND ROLE_TITLE = 'Head of HR' 
+      AND EMP_STATUS = 'ACTIVE'
+	  limit 1
+  ) ELSE (
+    SELECT 
+      EMP_NAME 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      DEPARTMENT_TITLE = 'HRM' 
+      AND ROLE_TITLE = 'DHOD' 
+      AND EMP_STATUS = 'ACTIVE'
+	  limit 1
+  ) END HRM_DEPT, 
+  CASE WHEN cast(A.DESIGNATION as integer) < 37 THEN (
+    SELECT 
+      DESIGNATION 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      DEPARTMENT_TITLE = 'HRM' 
+      AND ROLE_TITLE = 'Head of HR' 
+      AND EMP_STATUS = 'ACTIVE'
+	  limit 1
+  ) ELSE (
+    SELECT 
+      DESIGNATION 
+    FROM 
+      HR_CR_EMP_PRIMARY_ASSGNMNT 
+    WHERE 
+      DEPARTMENT_TITLE = 'HRM' 
+      AND ROLE_TITLE = 'DHOD' 
+      AND EMP_STATUS = 'ACTIVE'
+	  limit 1
+  ) END HRM_DEPT_DESIGNATION 
+FROM 
+  HR_IR_APLC A 
+WHERE 
+CODE = $P{P_APLC_CODE}
+]]>
+	</queryString>
+	<field name="code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="code"/>
+		<property name="com.jaspersoft.studio.field.label" value="code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="sl_no" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="sl_no"/>
+		<property name="com.jaspersoft.studio.field.label" value="sl_no"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="title"/>
+		<property name="com.jaspersoft.studio.field.label" value="title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="voter_identity_number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="voter_identity_number"/>
+		<property name="com.jaspersoft.studio.field.label" value="voter_identity_number"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="mob_code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="mob_code"/>
+		<property name="com.jaspersoft.studio.field.label" value="mob_code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="email"/>
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="father_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="father_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="father_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="mother_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="mother_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="mother_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="salary" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="salary"/>
+		<property name="com.jaspersoft.studio.field.label" value="salary"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="in_word_sal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="in_word_sal"/>
+		<property name="com.jaspersoft.studio.field.label" value="in_word_sal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="alkp_gender_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="alkp_gender_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="alkp_gender_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="spouse_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="spouse_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="spouse_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prmnt" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prmnt"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prmnt"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prmnt_vill" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prmnt_vill"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prmnt_vill"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prmnt_po" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prmnt_po"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prmnt_po"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prmnt_ps" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prmnt_ps"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prmnt_ps"/>
+	</field>
+	<field name="addrss_prmnt_dist" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prmnt_dist"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prmnt_dist"/>
+	</field>
+	<field name="addrss_prsnt_vill" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prsnt_vill"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prsnt_vill"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prsnt_po" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prsnt_po"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prsnt_po"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prsnt_ps" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prsnt_ps"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prsnt_ps"/>
+	</field>
+	<field name="addrss_prsnt_dist" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prsnt_dist"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prsnt_dist"/>
+	</field>
+	<field name="designation_order" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="designation_order"/>
+		<property name="com.jaspersoft.studio.field.label" value="designation_order"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="designation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="designation"/>
+		<property name="com.jaspersoft.studio.field.label" value="designation"/>
+	</field>
+	<field name="category" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="category"/>
+		<property name="com.jaspersoft.studio.field.label" value="category"/>
+	</field>
+	<field name="probation_duration" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="probation_duration"/>
+		<property name="com.jaspersoft.studio.field.label" value="probation_duration"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="prime_duty" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="prime_duty"/>
+		<property name="com.jaspersoft.studio.field.label" value="prime_duty"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="joining_date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="joining_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="joining_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="job_location_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="job_location_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="job_location_id"/>
+	</field>
+	<field name="operating_unit_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="operating_unit_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="operating_unit_title"/>
+	</field>
+	<field name="alkp_product_group_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="alkp_product_group_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="alkp_product_group_title"/>
+	</field>
+	<field name="product_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="product_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="product_title"/>
+	</field>
+	<field name="department_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="department_title"/>
+	</field>
+	<field name="section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="section_title"/>
+	</field>
+	<field name="sub_section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="sub_section_title"/>
+	</field>
+	<field name="team_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="team_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="team_title"/>
+	</field>
+	<field name="sub_team_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_team_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="sub_team_title"/>
+	</field>
+	<field name="ou_title_short" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ou_title_short"/>
+		<property name="com.jaspersoft.studio.field.label" value="ou_title_short"/>
+	</field>
+	<field name="hrm_dept" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="hrm_dept"/>
+		<property name="com.jaspersoft.studio.field.label" value="hrm_dept"/>
+	</field>
+	<field name="hrm_dept_designation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="hrm_dept_designation"/>
+		<property name="com.jaspersoft.studio.field.label" value="hrm_dept_designation"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="177">
+			<textField>
+				<reportElement x="0" y="47" width="423" height="17" uuid="ee27f8fc-d780-4bed-9f9e-07d48798ae38"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{alkp_gender_id}== 2789 ? "Mr. " : "Ms. "+$F{title}+", NID: "+ $F{voter_identity_number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="64" width="452" height="16" uuid="ba1d7230-b486-4ff0-80cb-27a5d472d6c9"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["S/O. "+$F{father_name}+" & "+$F{mother_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="452" y="38" width="103" height="20" uuid="9e903fc4-fe26-4598-bf90-61eed16d7624"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="423" y="38" width="29" height="20" uuid="f84b6564-7bdf-408c-b7fa-2fcbe97e068e"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Date: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="80" width="452" height="15" uuid="c1b0526a-8c4c-4d69-af17-306bfa4e6c63"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Spouse Name: "+$F{spouse_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="95" width="555" height="15" uuid="7f3af27f-561e-4f0d-9c17-e2081ec6339d"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Present Address- Vill:"+$F{addrss_prsnt_vill}+" P.O."+$F{addrss_prsnt_po}+" PS."+$F{addrss_prsnt_ps}+" Dist:"+$F{addrss_prsnt_dist}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="110" width="555" height="16" uuid="1cba56f9-6311-4966-9f1c-84dc43d63a55"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Permanent Address- Vill:"+$F{addrss_prmnt_vill}+" P.O."+$F{addrss_prmnt_po}+" PS."+$F{addrss_prmnt_ps}+" Dist:"+$F{addrss_prmnt_dist}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="133" width="555" height="25" uuid="7ab940df-2714-414b-8341-cc41856d3ee6"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Subject: Appointment Letter for the position of “ "+$F{category} +" "+ $F{designation} +" ” under the Department of " +$F{department_title}+" ("+$F{product_title}+") "+" in "+$F{section_title}+" Section"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="27" width="413" height="12" uuid="e6ddc6fc-e46e-4369-9f6c-190324fd6081"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ref: "+$F{ou_title_short}+"/HRM/Appoint/2021-2022/"+$F{sl_no}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="8ecf19f9-ec38-4bee-a1c8-9d8f8f931d0e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Appointment Letter - Officers and Equivalent]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="160" width="413" height="17" uuid="a46d79bd-1525-4828-8d68-66f5179958e7"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Dear, "+ ($F{alkp_gender_id} == 2789 ? "Mr. " : "Ms. ") +$F{title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="429">
+			<staticText>
+				<reportElement x="0" y="142" width="555" height="287" isPrintWhenDetailOverflows="true" uuid="8eb39147-1a8b-4a23-b8d5-de82c4c5c24c"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="7" isBold="false" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="1_1_2" tabStopWidth="10"/>
+				</textElement>
+				<text><![CDATA[4.  During the probationary period your service may be terminated by company without any notice.
+5.  Your salary may be increased on the basis of your performance appraisal in every year.
+6.  You have to submit NOC (No Objection Certificate) of your previous services before joining. In case of your failure, you must submit it during your probation period, otherwise your job may not be permanent or company may terminate you without any notice.
+7.  During service period you will get 10 days’ casual leave (only in case of any casualty which affects you) and 14 days sick leave (only in case of sickness) in a year which will be given proportionately. Annual leave and other applicable leave will be given as per company policy.
+8.   During service period, you will be entitled to get festival bonus as per company policy.
+9.  Your service shall be governed, guided and regulated by the existing policies, rules, regulations and office order (s) of the Company, which may be revised from time to time at the discretion of the management authority of the company. The terms and conditions contained herein may also be amended according to changes in company’s human resource policy or the company’s general rules or employment at any time at the discretion of the company. You shall have to sign certain documents at the time of joining of the company, failing to which your joining will not be treated as valid or complete.
+10.  The management/employer or the authorized person of the company has the right to inspect all over your work and activities as and when the company desires.
+11.  Your service is transferable depending on requirements of the business and activities of the company. You may be transferred at anywhere in Bangladesh. You may also be transferred from one job/section/department/company to another with due consideration of your abilities.
+12.  Since you will work in the factory with greater responsibility, you shall have to reside near to your work place to ensure your timely presence in the factory.
+13.  You have to take approval from appropriate authority in case of journey at abroad for your personal or official purpose.
+14.  You will be totally prohibited to serve in your own or any other company for any kind of job during the service period at Walton group.
+15.  After the confirmation of your service, if you like to resign from your job you shall have to submit 60 (Sixty) days prior notice or surrender equivalent to 60 days’ basic pay.
+]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="555" height="54" uuid="f4d227e2-d464-4d2e-86a8-d5afbe13a993"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2" spacingAfter="-20"/>
+				</textElement>
+				<textFieldExpression><![CDATA["With reference to your application and subsequent interview with us, we are pleased to appoint you “ "+$F{category}+" "+$F{designation}+"” under the Department of "+$F{department_title}+" ("+$F{product_title}+") in "+$F{section_title}+" Section at "+$F{operating_unit_title}+" (hereinafter referred to as "+$F{ou_title_short}+" or Company), effective from "+$F{joining_date}+" subject to following terms and conditions:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="54" width="555" height="34" uuid="2a5549d2-3ebb-4a88-b0fe-921da1090fee"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Bottom">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["1.  Your prime duty is  "+$F{prime_duty}+"  related works. (A detail Job Description will be given you later which will also be visible in HRMS software). You may be assigned with any additional responsibility at any time, at any sole direction of the company."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="88" width="555" height="27" uuid="d4ccd092-6501-4dc0-b839-6d7ab8ea8edc"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["2.  You are allowed to draw a consolidated Salary @"+$F{salary}+"Tk ("+$F{in_word_sal}+" ) per month as at Annex Schedule A which includes all your perquisites, allowances and deductions."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="114" width="555" height="28" uuid="ff9022ae-9255-4894-ba17-5b125ce7cb10"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["3. You will undergo for a probationary period of "+$F{probation_duration}+" months from the date of joining. On successful completion of such period, your service may be confirmed with the satisfaction of all other related ingredients."]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="328" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="327" uuid="aad83bf4-8702-4bfe-b3ba-5fecc7255c87"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[16.  If you resign from your job or company terminates you on any reasonable ground, you have to pay back all advances taken from the company (if any) and you have to refund all the expenses with compensation of the special training/foreign tour to the company (when applicable) at least 15 (fifteen) days prior to your leaving.
+17.  You have to hand over your duties imposed on you to the personnel (Company staff) prescribed by authority before your leaving the company. After finalizing all formalities/final settlement of all bills, you must collect clearance certificate from the company.
+18.  If your present/permanent address or the reference/guarantor/nominee of your job is changed, you must inform the same to recruitment section within seven working days.
+19.  You will not copy, publish or disclose any confidential and technical information to anybody which you will receive or obtain during your employment period at Walton group.
+20. You must address your seniors "Sir" & maintain standard dress/prescribed dress code, while performing your duty.
+21. You shall have to abide by the Dress Code of the Company; in case of failure to do so, management may take necessary action as per rule.
+22. Your service shall be regulated by the company policy and procedure and you shall be bound to abide by the rules.
+23. In case of misconduct, corruption, bribery, crime and any deed against the company and country, company may dismiss you maintaining trial procedure and take legal action under the Law of the Land.
+24. You will be bound to keep the internal discipline, peace and security.
+25. You will restrain yourself in any condition from words and deeds which destroy the image of the company and country.
+26. Your appointment in the service of the company will be effective from the date of joining.
+27. You shall have to submit following documents & papers for joining in the service of the company:
+    a. One set of attested copies of your educational, experience, training and other qualification certificates (Original certificates have to be exhibited)
+   b. Three recent Passport Size photographs (duly attested);
+   c. Unconditional Release Letter from your last employer (if any) ;
+   d. Photocopy of National ID Card/Passport (In absence of NID, Birth certificate is allowed with the condition of submitting NID) ;
+   e. Photocopy of TIN certificate (if any)
+   f. Ward Commissioner/UP Chairman’s Certificate;
+   g. Medical certificate;
+   h. DBBL Bank Account Number (for salary disbursement).]]></text>
+			</staticText>
+		</band>
+		<band height="295" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="94" uuid="58081c67-8bf9-4925-8897-15f89dc96f87"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[If you agree with the above terms and conditions set herein, please sign and return to us the duplicate copy of this offer as an expression of your acceptance of the offer.
+
+Thanking you.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="361" y="227" width="141" height="1" uuid="969e5eea-5573-4412-8cd8-8b4594332f85"/>
+			</line>
+			<staticText>
+				<reportElement x="328" y="229" width="214" height="20" uuid="7424f6d1-cd19-43d8-88a6-3c2ac23e3c2f"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA["Signature in acceptance"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="251" width="555" height="44" uuid="502e6e72-0a55-41fc-83ee-58887213faa4"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Your acceptance hereof shall be treated as the valid and legal contract between you and the company subject to submission of all the required documents as requested by the company and acceptance thereof by the company to its satisfaction. Upon any failure to comply with any conditions contained in this letter, the offer in this letter shall be deemed to have lapsed and be withdrawn. ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="94" width="555" height="16" uuid="b6625215-31fd-4ac5-9fa2-445f20e7d509"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hrm_dept}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="125" width="555" height="99" uuid="eabd8ea0-3ae0-4bf5-a2f2-5d9a7bed88be"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Dept. of HRM
+Walton Hi-Tech Industries PLC.
+
+Copy to:
+1. Managing Director
+2. Accounts Section
+3. Personal File
+
+I have read and understood this letter of appointment and I am willingly agreed to accept the terms and conditions as offered and I confirm my joining.
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="110" width="555" height="14" uuid="59ea95b7-5f6b-43b6-98cc-7562b99583a7"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hrm_dept_designation}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="206" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="5b30b3a2-9c60-49e6-922b-e35ca15d2d8b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Schedule-A]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="32" width="555" height="12" uuid="57ce11e5-de1f-44db-8b86-55dffe428ff3"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="74" width="555" height="16" uuid="794816ba-5c48-4b10-929f-d2a9b301e1e2"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Permanent Address- Vill:"+$F{addrss_prmnt_vill}+" P.O."+$F{addrss_prmnt_po}+" PS."+$F{addrss_prmnt_ps}+" Dist:"+$F{addrss_prmnt_dist}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="59" width="555" height="15" uuid="830afb7c-58ce-40a8-87a6-1cb4917a90de"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Present Address- Vill:"+$F{addrss_prsnt_vill}+" P.O."+$F{addrss_prsnt_po}+" PS."+$F{addrss_prsnt_ps}+" Dist:"+$F{addrss_prsnt_dist}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="105" width="555" height="12" uuid="8f3c57c4-1400-4e39-a131-90c60db14d28"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Details of salary and other benefits:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="20" width="555" height="12" uuid="df6e065e-a2f4-4bc5-8bb4-962b462d4417"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ref: "+$F{ou_title_short}+"/HRM/Appoint/2021-2022/"+$F{sl_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="44" width="555" height="17" uuid="ded829c0-8882-42b9-81ec-3e7a425249ea"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{alkp_gender_id}== 2789 ? "Mr. " : "Ms. " )+$F{title}+", NID: "+$F{voter_identity_number}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="326" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="172" uuid="7b42cee7-2141-451c-9bb7-9026004fe940"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[** Income Tax, arising out of your salary and other benefits from the company shall be borne by you and Advance Income Tax (AIT) will be deducted at source.
+** You will be paid proportionately for any period less than a month.
+Compensation and other benefits:
+Festival Bonus		: 2 (Two) festival bonus in a year as per company policy.
+Mobile SIM and amount	: Mobile SIM and mobile allowance benefit.
+Transport Facility		: As per Company policy
+Service benefit		: As per company policy
+
+Thanking you,
+
+
+
+
+_______________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="200" width="555" height="115" uuid="71f259cb-990e-4197-985b-dd18766d04c6"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement>
+					<font size="7"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Dept. of HRM
+Walton Hi-Tech Industries PLC.
+
+Copy to:
+1. Managing Director
+2. Accounts Section
+3. Personal File
+
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="186" width="555" height="14" uuid="25cfe7da-8ded-42b2-99bf-15e194fe613f"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hrm_dept_designation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="172" width="555" height="16" uuid="cc391be0-b2ba-4333-bf92-061cb94382fe"/>
+				<box leftPadding="10" rightPadding="10"/>
+				<textElement textAlignment="Justified">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hrm_dept}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField>
+				<reportElement x="435" y="0" width="80" height="20" uuid="126def7f-89fd-4f89-8b42-ddd8298d3b3c"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="261" height="20" uuid="7dfaced8-4153-4569-a1e6-c082206c9368"/>
+				<textElement textAlignment="Justified" verticalAlignment="Bottom" markup="styled">
+					<font size="6" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Human Resource Management Division]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="0" width="40" height="20" uuid="5202b0d1-d82e-4f75-a240-9992cc1c4738"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

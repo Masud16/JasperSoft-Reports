@@ -1,0 +1,830 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="emp_clearance_interview" language="groovy" pageWidth="612" pageHeight="1008" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8bf2b1d3-0819-4a28-8875-742d90a40a45">
+	<property name="ireport.zoom" value="1.4641000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="673"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_EMP_CODE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_CODE" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT b.*,A.EMP_CODE "Employee ID",
+       A.EMP_NAME "Employee Name",
+       A.DESIGNATION,
+       A.PRODUCT_TITLE,
+       A.OPERATING_UNIT_TITLE "Company",
+       A.LOCATION_TITLE,
+       A.DEPARTMENT_TITLE,
+       A.SECTION_TITLE,
+       A.SUB_SECTION_TITLE,
+       A.JOINING_DATE,
+       A.EMP_CAT_TITLE,
+       A.EMP_STATUS
+  FROM HR_CR_EMP_PRIMARY_ASSGNMNT A,EMP_CLEARANCE_INTERVIEW B
+WHERE A.HR_CR_EMP_ID=B.HR_CR_EMP_ID
+AND  A.EMP_CODE=$P{P_EMP_CODE}]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="about_colleague_comment" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="about_colleague_comment"/>
+		<property name="com.jaspersoft.studio.field.label" value="about_colleague_comment"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="about_salary" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="about_salary"/>
+		<property name="com.jaspersoft.studio.field.label" value="about_salary"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="about_work_environment" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="about_work_environment"/>
+		<property name="com.jaspersoft.studio.field.label" value="about_work_environment"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="after_resign_comments" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="after_resign_comments"/>
+		<property name="com.jaspersoft.studio.field.label" value="after_resign_comments"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="after_resign_feelings" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="after_resign_feelings"/>
+		<property name="com.jaspersoft.studio.field.label" value="after_resign_feelings"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="another_advice" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="another_advice"/>
+		<property name="com.jaspersoft.studio.field.label" value="another_advice"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="aprvl_date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="aprvl_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="aprvl_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="aprvl_status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="aprvl_status"/>
+		<property name="com.jaspersoft.studio.field.label" value="aprvl_status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="code"/>
+		<property name="com.jaspersoft.studio.field.label" value="code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="colleague_relation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="colleague_relation"/>
+		<property name="com.jaspersoft.studio.field.label" value="colleague_relation"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="company_rules_break_resign" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="company_rules_break_resign"/>
+		<property name="com.jaspersoft.studio.field.label" value="company_rules_break_resign"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="creation_datetime" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="creation_datetime"/>
+		<property name="com.jaspersoft.studio.field.label" value="creation_datetime"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="creation_user" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="creation_user"/>
+		<property name="com.jaspersoft.studio.field.label" value="creation_user"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="demand_loan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="demand_loan"/>
+		<property name="com.jaspersoft.studio.field.label" value="demand_loan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="disappointed_site" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="disappointed_site"/>
+		<property name="com.jaspersoft.studio.field.label" value="disappointed_site"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="first_aid" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="first_aid"/>
+		<property name="com.jaspersoft.studio.field.label" value="first_aid"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="food_quality" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="food_quality"/>
+		<property name="com.jaspersoft.studio.field.label" value="food_quality"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="future_come_back" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="future_come_back"/>
+		<property name="com.jaspersoft.studio.field.label" value="future_come_back"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="future_come_back_comments" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="future_come_back_comments"/>
+		<property name="com.jaspersoft.studio.field.label" value="future_come_back_comments"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="get_any_loan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="get_any_loan"/>
+		<property name="com.jaspersoft.studio.field.label" value="get_any_loan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="good_environment_rremarks" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="good_environment_rremarks"/>
+		<property name="com.jaspersoft.studio.field.label" value="good_environment_rremarks"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="good_environment_task_capacity" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="good_environment_task_capacity"/>
+		<property name="com.jaspersoft.studio.field.label" value="good_environment_task_capacity"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="good_site" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="good_site"/>
+		<property name="com.jaspersoft.studio.field.label" value="good_site"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="hr_comments" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="hr_comments"/>
+		<property name="com.jaspersoft.studio.field.label" value="hr_comments"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="improve_advantage" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="improve_advantage"/>
+		<property name="com.jaspersoft.studio.field.label" value="improve_advantage"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="incharge_efficiency" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="incharge_efficiency"/>
+		<property name="com.jaspersoft.studio.field.label" value="incharge_efficiency"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="is_invoked" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="is_invoked"/>
+		<property name="com.jaspersoft.studio.field.label" value="is_invoked"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="is_submitted" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="is_submitted"/>
+		<property name="com.jaspersoft.studio.field.label" value="is_submitted"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="last_update_datetime" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="last_update_datetime"/>
+		<property name="com.jaspersoft.studio.field.label" value="last_update_datetime"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="last_update_user" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="last_update_user"/>
+		<property name="com.jaspersoft.studio.field.label" value="last_update_user"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="last_working_day" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="last_working_day"/>
+		<property name="com.jaspersoft.studio.field.label" value="last_working_day"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="leave" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="leave"/>
+		<property name="com.jaspersoft.studio.field.label" value="leave"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="machinaries" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="machinaries"/>
+		<property name="com.jaspersoft.studio.field.label" value="machinaries"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="physically_damage_resign" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="physically_damage_resign"/>
+		<property name="com.jaspersoft.studio.field.label" value="physically_damage_resign"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="rejoin_comments" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="rejoin_comments"/>
+		<property name="com.jaspersoft.studio.field.label" value="rejoin_comments"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="relation_about_colleague" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="relation_about_colleague"/>
+		<property name="com.jaspersoft.studio.field.label" value="relation_about_colleague"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="remarks" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="remarks"/>
+		<property name="com.jaspersoft.studio.field.label" value="remarks"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="resign" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="resign"/>
+		<property name="com.jaspersoft.studio.field.label" value="resign"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="resign_for_abroad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="resign_for_abroad"/>
+		<property name="com.jaspersoft.studio.field.label" value="resign_for_abroad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="resign_for_higher_study" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="resign_for_higher_study"/>
+		<property name="com.jaspersoft.studio.field.label" value="resign_for_higher_study"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="resign_for_others" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="resign_for_others"/>
+		<property name="com.jaspersoft.studio.field.label" value="resign_for_others"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="resign_for_own_task" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="resign_for_own_task"/>
+		<property name="com.jaspersoft.studio.field.label" value="resign_for_own_task"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="resign_for_scape" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="resign_for_scape"/>
+		<property name="com.jaspersoft.studio.field.label" value="resign_for_scape"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="resign_forjob_switch" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="resign_forjob_switch"/>
+		<property name="com.jaspersoft.studio.field.label" value="resign_forjob_switch"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="rules_regulation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="rules_regulation"/>
+		<property name="com.jaspersoft.studio.field.label" value="rules_regulation"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="training" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="training"/>
+		<property name="com.jaspersoft.studio.field.label" value="training"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="training_advantage" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="training_advantage"/>
+		<property name="com.jaspersoft.studio.field.label" value="training_advantage"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="un_willing_resign_remarks" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="un_willing_resign_remarks"/>
+		<property name="com.jaspersoft.studio.field.label" value="un_willing_resign_remarks"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="unique_dress" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="unique_dress"/>
+		<property name="com.jaspersoft.studio.field.label" value="unique_dress"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="work_environment" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="work_environment"/>
+		<property name="com.jaspersoft.studio.field.label" value="work_environment"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="work_security" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="work_security"/>
+		<property name="com.jaspersoft.studio.field.label" value="work_security"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="yearly_kpi" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="yearly_kpi"/>
+		<property name="com.jaspersoft.studio.field.label" value="yearly_kpi"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="hr_cr_emp_entry_by_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="hr_cr_emp_entry_by_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="hr_cr_emp_entry_by_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="hr_cr_emp_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="hr_cr_emp_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="hr_cr_emp_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="hr_cr_emp_update_by_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="hr_cr_emp_update_by_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="hr_cr_emp_update_by_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="emp_clearance_interview"/>
+	</field>
+	<field name="Employee ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Employee ID"/>
+		<property name="com.jaspersoft.studio.field.label" value="Employee ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="Employee Name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Employee Name"/>
+		<property name="com.jaspersoft.studio.field.label" value="Employee Name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="designation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="designation"/>
+		<property name="com.jaspersoft.studio.field.label" value="designation"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="product_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="product_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="product_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="Company" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Company"/>
+		<property name="com.jaspersoft.studio.field.label" value="Company"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="location_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="location_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="location_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="department_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="sub_section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="sub_section_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="joining_date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="joining_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="joining_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="emp_cat_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_cat_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_cat_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="emp_status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_status"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="279" splitType="Stretch">
+			<image>
+				<reportElement x="11" y="0" width="544" height="222" uuid="01145985-0459-4dca-86e9-0c01c0f45190"/>
+				<imageExpression><![CDATA["https://hrms.waltonbd.com/HRMS/reports/clearance_2.jpg"]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="215" y="81" width="131" height="12" uuid="a0c711ac-6260-4a3b-9f72-e6036bdb98d0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Employee ID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="39" y="81" width="141" height="13" uuid="e67bd225-75f6-4556-b7fb-01d0e5f84b78"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Employee Name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="40" y="98" width="140" height="12" uuid="162cbd36-3a4d-4372-9c0d-c0341ec616a8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="215" y="98" width="131" height="12" uuid="b2ab47b8-dc23-4077-913b-53349515f5a2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{department_title}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="406" y="170" width="149" height="16" uuid="d16f84e1-c23b-46ed-a154-bd129b90c3d4"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{resign_for_higher_study}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="428" y="186" width="127" height="17" uuid="7dddfc5c-382f-4ede-a07d-0f2f524e2d9f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{resign_for_own_task}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="328" y="207" width="227" height="15" uuid="e3acf4ce-2008-4851-a79e-e8f6a3ca57ba"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{resign_for_others}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="190" width="163" height="17" uuid="8e1799a3-1ab3-41d9-926e-4f1ce2df962b"/>
+				<textFieldExpression><![CDATA[$F{resign_for_abroad}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="207" width="198" height="15" uuid="5721d0ce-8337-418f-85d9-df17f269d608"/>
+				<textFieldExpression><![CDATA[$F{resign_for_scape}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yy" isBlankWhenNull="true">
+				<reportElement x="84" y="116" width="100" height="13" uuid="c6644ffd-e8fd-427c-abd4-2ea84c2a4244"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{joining_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="412" y="79" width="142" height="13" uuid="375dfd8b-14bc-4828-83e7-2a672372cacc"/>
+				<box leftPadding="3"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Company}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yy" isBlankWhenNull="true">
+				<reportElement x="249" y="116" width="100" height="13" uuid="b5f082b4-3cee-4c48-8a58-ba6d68e4033a"/>
+				<textFieldExpression><![CDATA[$F{resign}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="428" y="97" width="126" height="14" uuid="497360dc-d6e7-473f-96b3-ed288ddcd1c7"/>
+				<textFieldExpression><![CDATA[$F{location_title}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="8" y="222" width="543" height="55" uuid="129b6ff0-f8e3-4dc8-b08f-862e270f2c1a"/>
+				<imageExpression><![CDATA["https://hrms.waltonbd.com/HRMS/reports/clearance_4.jpg"]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="296" y="246" width="100" height="20" uuid="8b732138-16f9-465e-bcbf-ada8c39766a0"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{physically_damage_resign}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="446" y="246" width="100" height="20" uuid="4897019c-4505-43d1-9e44-2d17e19f12ef"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{un_willing_resign_remarks}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="110" y="248" width="100" height="20" uuid="514954cb-1354-479a-8893-6d1e312ce46c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{company_rules_break_resign}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="535" splitType="Stretch">
+			<image>
+				<reportElement x="11" y="-2" width="544" height="537" uuid="fcb8ec13-4ef5-468b-90f6-331389ca33f6"/>
+				<imageExpression><![CDATA["https://hrms.waltonbd.com/HRMS/reports/clearance_1.jpg"]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="19" width="240" height="13" uuid="a2264522-6cda-470c-a148-e5a171280239"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{training}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="36" width="240" height="13" uuid="4d23ac31-3642-4ba3-a0bd-1e95031934d7"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{work_environment}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="49" width="240" height="13" uuid="911098a4-85bf-42e3-a27c-d9dbc292eb59"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{colleague_relation}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="69" width="240" height="14" uuid="c4d67c1a-790a-4f3c-92b2-cd03e5f1d63c"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{incharge_efficiency}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="86" width="240" height="17" uuid="d8a8a3c5-8e9f-4fe9-98e6-a6fdb70fb980"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{good_environment_task_capacity}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="134" width="240" height="14" uuid="3b8284f5-1e8d-4987-a617-69d23aca256f"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{disappointed_site}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="168" width="51" height="16" uuid="44745983-4893-4d7a-a391-57929cfbb21a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{after_resign_feelings}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="187" width="240" height="16" uuid="69e090b4-0d61-4b7e-8454-13a6669e6681"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{demand_loan}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="204" width="240" height="15" uuid="f34618c9-6723-4e32-a5b8-c18929582a73"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{get_any_loan}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="219" width="29" height="16" uuid="dbb7bc3d-2f89-4859-8a4a-9a91aa00ca55"/>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{future_come_back}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="263" y="270" width="243" height="11" uuid="0879ab9b-14c5-4578-8952-025a3c653e94"/>
+				<box leftPadding="4">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comments]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="281" width="243" height="10" uuid="55798e5d-35df-44b2-9a6e-bbc291546e57"/>
+				<box leftPadding="4">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{about_salary}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="291" width="243" height="10" uuid="5ed787fd-bf27-43e0-be2f-4a8161f7f6be"/>
+				<box leftPadding="4">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{work_environment}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="301" width="243" height="11" uuid="150275aa-0315-4a4a-a76d-64c3bce6590f"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{work_security}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="312" width="243" height="10" uuid="97bf9641-6dce-414f-a959-481b01430104"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{training_advantage}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="332" width="243" height="10" uuid="a5a252a8-955e-4191-9150-f41d478f752d"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{yearly_kpi}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="322" width="243" height="10" uuid="7a56452c-512e-48ea-99c3-fc747236dfe7"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{improve_advantage}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="342" width="243" height="12" uuid="ecd26485-907e-4b5d-82e2-21e3f582cd50"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unique_dress}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="354" width="243" height="10" uuid="5f23513f-64ce-4b75-a028-b97c760de7f6"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{food_quality}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="364" width="243" height="10" uuid="c806adb3-6815-4217-a3e0-5ddc2532269f"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{leave}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="384" width="243" height="10" uuid="662f79f2-633e-4f13-bac7-96d808271fd9"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{first_aid}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="374" width="243" height="10" uuid="53d6013f-e258-4a53-8c8a-60a13d7f5e41"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{machinaries}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="394" width="243" height="11" uuid="5bd4fded-e94a-4990-b88c-b0d4894028db"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rules_regulation}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="419" width="292" height="14" uuid="f9429ba0-7007-4cd4-8cbf-20653ec9f402"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{another_advice}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="263" y="437" width="292" height="14" uuid="27abf1da-6df7-44b7-a425-33936efeb9ab"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rejoin_comments}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="15" y="520" width="53" height="1" uuid="02bcdcdd-cd72-4da6-ac16-75638cf18f74"/>
+			</line>
+			<line>
+				<reportElement x="163" y="519" width="100" height="1" uuid="570c36d1-066a-4fdb-848e-c106848edaec"/>
+			</line>
+			<line>
+				<reportElement x="328" y="520" width="100" height="1" uuid="570c36d1-066a-4fdb-848e-c106848edaec"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="103" width="240" height="13" uuid="2a07fbf1-b431-494e-aadc-25aa1349a235"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{good_environment_rremarks}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="306" y="116" width="240" height="13" uuid="f7bcb853-b443-4c3b-82b3-392a2515148c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{about_colleague_comment}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="357" y="168" width="194" height="16" uuid="73eb13cb-8492-4ea3-acf6-f09e2d1926c8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{after_resign_comments}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="335" y="219" width="216" height="27" uuid="0fdb12e4-f74f-428c-8a2f-c4974a468524"/>
+				<textElement verticalAlignment="Top">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{future_come_back_comments}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="478" width="59" height="11" uuid="e587f84d-d098-4ff9-98f9-549919c48f29"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HR Comments:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="478" width="466" height="28" uuid="569d9111-778a-4d0c-93fd-8c17ec1368bb"/>
+				<textElement verticalAlignment="Top">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{remarks}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="148" width="245" height="15" uuid="570910d7-bf34-4fae-82ca-bd5834f8e28c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{good_site}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

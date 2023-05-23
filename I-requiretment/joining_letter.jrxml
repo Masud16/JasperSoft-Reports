@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="joining_letter" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="660323cd-d359-4e1a-a2a1-95c02b7b1c0d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="155"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_APLC_CODE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select 
+    (
+    SELECT 
+      REF_NO 
+    FROM 
+      HR_IR_VCNCY 
+    WHERE 
+      id = A.vacancy_id
+  ) REF_NO,
+  E.ALKP_HONORIFIC_TTL_ID, 
+  E.TITLE, 
+  E.FATHER_NAME, 
+  E.MOTHER_NAME, 
+  E.present_address ADDRSS_PRSNT, 
+  E.permanent_address ADDRSS_PRMNT, 
+  TO_CHAR(A.EFFECT_DATE, 'DD-Month-YYYY') EFFECT_DATE, 
+  A.fixed_salary BASIC, 
+  fx_numtowords(A.fixed_salary) IN_WORD,
+   
+  (
+    SELECT 
+      TITLE 
+    FROM 
+      HR_IR_VCNCY 
+    WHERE 
+      id = A.vacancy_id
+  ) VCNCY_TITLE 
+from 
+  HR_IR_JOIN_APP A, 
+  HR_IR_APLC E 
+where 
+  A.HR_IR_APLC_ID = E.ID 
+  AND E.CODE = $P{P_APLC_CODE}
+]]>
+	</queryString>
+	<field name="ref_no" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ref_no"/>
+		<property name="com.jaspersoft.studio.field.label" value="ref_no"/>
+	</field>
+	<field name="alkp_honorific_ttl_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="alkp_honorific_ttl_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="alkp_honorific_ttl_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="title"/>
+		<property name="com.jaspersoft.studio.field.label" value="title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="father_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="father_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="father_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="mother_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="mother_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="mother_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prsnt" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prsnt"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prsnt"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="addrss_prmnt" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="addrss_prmnt"/>
+		<property name="com.jaspersoft.studio.field.label" value="addrss_prmnt"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_aplc"/>
+	</field>
+	<field name="effect_date" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="effect_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="effect_date"/>
+	</field>
+	<field name="basic" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="basic"/>
+		<property name="com.jaspersoft.studio.field.label" value="basic"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_ir_join_app"/>
+	</field>
+	<field name="in_word" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="in_word"/>
+		<property name="com.jaspersoft.studio.field.label" value="in_word"/>
+	</field>
+	<field name="vcncy_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="vcncy_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="vcncy_title"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="130" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="110" width="555" height="20" uuid="d77ae2e7-d446-4a93-bdb5-1c1e10f381d4"/>
+				<textElement markup="html"/>
+				<text><![CDATA[<b>Subject: Joining Letter.</b>]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="31" width="158" height="79" uuid="cd1571d1-df4f-4ca6-ae16-a372fc1b4961"/>
+				<textElement markup="html"/>
+				<text><![CDATA[To<br>
+<b>Managing Director</b><br>
+RB Group<br>
+Jiban Bima Bhaban<br>
+10 Dilkusha C/A, Dhaka-1000.
+]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="30" y="4" width="103" height="20" uuid="9e903fc4-fe26-4598-bf90-61eed16d7624"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="4" width="29" height="20" uuid="f84b6564-7bdf-408c-b7fa-2fcbe97e068e"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Date: ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="183" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="0" width="555" height="86" uuid="a2d7e0ae-8cca-42ab-a4ea-64307b1e1bcb"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA["Sir,<br><br>With reference to your Appointment letter Ref: <u>"+$F{ref_no}+"</u> dated <u>"+$F{effect_date}+"</u>,I am pleased to inform you that I am going to join<br> in your organization in the position of <u>"+$F{vcncy_title}+"</u> starting from today.<br><br>I look forward to work my best with the interest of the organization. Please accept my joining letter and oblige thereby."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="98" width="100" height="20" uuid="207a23d2-d124-446d-87b1-9a385a719170"/>
+				<text><![CDATA[Sincerely]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="165" width="157" height="18" uuid="191d7fa2-634b-4854-98fd-9e8ab79bab40"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA["Name: "+$F{title}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="161" width="118" height="1" uuid="5fb4d1b8-0233-4f08-bcc3-71df7ee41158"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

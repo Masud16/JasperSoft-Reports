@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sim_limit_before_approval" language="groovy" pageWidth="595" pageHeight="1000" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="20" bottomMargin="20" uuid="21245b8c-5995-4f8d-b44a-35762e5064bf">
+	<property name="ireport.zoom" value="1.2100000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_ALL_ORG_ID" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_EMP_CODES" class="java.util.Collection">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_FROM_DATE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_TO_DATE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_JOB_LOCATION_ID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_APRVL_STATUS" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D://REPORTS//HRMS_REPORTS_sahee_mam_new//ALL_REPORTS//"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  A.EMP_CODE,A.EMP_NAME,A.DESIGNATION,A.DEPARTMENT_TITLE,A.OPERATING_UNIT_TITLE,B.sim_APprovaL_STATUS,
+A.SECTION_TITLE,a.PIC_URL,
+CASE WHEN B.ISISD=TRUE THEN 'Yes' ELSE 'No' END "ISD",
+       B.sim_APprovaL_STATUS,
+       B.LIMIT_amount VOICE_LIMIT,B.REASON_FOR_SIM,
+       B.INTERNET_PRICE DATA_AMOUNT,
+       CASE
+          WHEN B.sim_APprovaL_STATUS = 'APPROVED' THEN LIMIT_amount + INTERNET_PRICE
+          ELSE 0
+       END
+          APPROVED_CREDIT_LIMT
+  FROM hr_cr_EMP_PRIMARY_ASSGNMNT a, SIM_REQUISITION b
+ WHERE     a.ID = b.HR_CR_EMP_ID
+      AND A.JOB_LOCATION_ID = $P{P_JOB_LOCATION_ID} 
+       AND b.NEW_SIM_OR_LIMIT_EXTENSION = 'Sim Requisition'
+       AND B.sim_APprovaL_STATUS=  $P{P_APRVL_STATUS} 
+       AND $X{IN,a.EMP_CODE,P_EMP_CODES}
+       AND B.CREATION_DATETIME BETWEEN TO_DATE($P{P_FROM_DATE},'YYYY-MM-DD') AND
+                    TO_DATE($P{P_TO_DATE},'YYYY-MM-DD')]]>
+	</queryString>
+	<field name="emp_code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_code"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="emp_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="designation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="designation"/>
+		<property name="com.jaspersoft.studio.field.label" value="designation"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="department_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="operating_unit_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="operating_unit_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="operating_unit_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="sim_approval_status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sim_approval_status"/>
+		<property name="com.jaspersoft.studio.field.label" value="sim_approval_status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sim_requisition"/>
+	</field>
+	<field name="section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="pic_url" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pic_url"/>
+		<property name="com.jaspersoft.studio.field.label" value="pic_url"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="hr_cr_emp_primary_assgnmnt"/>
+	</field>
+	<field name="ISD" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ISD"/>
+		<property name="com.jaspersoft.studio.field.label" value="ISD"/>
+	</field>
+	<field name="COLUMN_10" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sim_approval_status"/>
+		<property name="com.jaspersoft.studio.field.label" value="sim_approval_status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sim_requisition"/>
+	</field>
+	<field name="voice_limit" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="voice_limit"/>
+		<property name="com.jaspersoft.studio.field.label" value="voice_limit"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sim_requisition"/>
+	</field>
+	<field name="reason_for_sim" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="reason_for_sim"/>
+		<property name="com.jaspersoft.studio.field.label" value="reason_for_sim"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sim_requisition"/>
+	</field>
+	<field name="data_amount" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="data_amount"/>
+		<property name="com.jaspersoft.studio.field.label" value="data_amount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sim_requisition"/>
+	</field>
+	<field name="approved_credit_limt" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="approved_credit_limt"/>
+		<property name="com.jaspersoft.studio.field.label" value="approved_credit_limt"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="94" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="511" y="76" width="17" height="18" uuid="8f3cd03c-1fc5-476b-bd8f-9e4aa0e7cb62"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[---]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="386" y="76" width="74" height="18" uuid="1513358c-ca0b-40d5-8873-34b480ff7001"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Report Date :]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="459" y="76" width="52" height="18" uuid="99234b8d-c9d5-4777-915f-07ea0ff4131c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_FROM_DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="528" y="76" width="57" height="18" uuid="b65aebf1-7d3e-4b6b-a844-42dca936d632"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_TO_DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="58" width="575" height="20" uuid="5b638bee-ab36-470f-bfd0-58cae289783c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{P_APRVL_STATUS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="41" width="575" height="20" uuid="67f3b409-dc8f-458d-b41c-805eaa972d81"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[SIM Requistion Approval List]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="35" width="575" height="1" uuid="16ef40ae-c100-46c2-9d46-ce1832aecee8"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<subreport>
+				<reportElement x="-10" y="2" width="200" height="31" uuid="4098ae9b-f1ad-4806-a7bb-b9a01d1ba4d0"/>
+				<subreportParameter name="P_EMP_CODES">
+					<subreportParameterExpression><![CDATA[$P{P_EMP_CODES}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["subheader_2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageHeader>
+		<band>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="-1" y="-11" width="412" height="9" uuid="eb3a0d73-6320-4158-bb50-59d48c1ae447"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Print Date and Time: "+(new SimpleDateFormat("EEEEE, d MMMMM yyyy hh:mm:ss aaa")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="38" y="0" width="46" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="e8332f7f-bc42-4cfc-8486-bcc1dbac7306"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="125" y="0" width="75" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="56dc3601-74f0-419e-8885-a871a908a891"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="200" y="0" width="58" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="c952bb78-f0b3-4ea2-a3d5-3f388eb960ff"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESIGNATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="258" y="0" width="56" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="f10f442c-57b9-4fe4-8ea8-cc9a6a7d7a62"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEPT.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="314" y="0" width="57" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="03fd8538-a069-4f16-bbb5-ed2cd64131cd"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SECTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="38" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="042f49df-153c-473b-8dfa-5ae1d6294bba"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="533" y="0" width="42" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="56246933-7b9b-4b8c-a7ec-6db94a954a5d"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESON]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="84" y="0" width="41" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="50bce590-fb06-4a11-92a9-27a9e85e24cb"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMAGE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="371" y="0" width="48" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="544faba0-0e12-42d0-a375-6346753ad6df"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Voice limit (tk)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="419" y="0" width="43" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="544faba0-0e12-42d0-a375-6346753ad6df"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data (amount)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="462" y="0" width="48" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="9ad6b161-33c8-4a5e-b514-45d8686f0dc1"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Approved credit Limit (tk)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="510" y="0" width="23" height="41" forecolor="#080707" backcolor="#D1D0CE" uuid="590f0b9f-46f6-48e5-a165-6fdc6c0795c0"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ISD]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="51" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="38" height="50" uuid="5da32293-3ff9-44b7-ab9a-32cfcc8b6469"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="38" y="0" width="46" height="50" uuid="2060f90c-9593-4d5a-9719-4d5ad2ed3c0b"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{emp_code}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="125" y="0" width="75" height="50" uuid="f5757403-ba64-406d-89f7-5a38886abb19"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{emp_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="0" width="58" height="50" uuid="04a94fcf-d24a-465e-83eb-7c724e3c9a01">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="258" y="0" width="56" height="50" uuid="62d18cee-bdd1-4129-8a63-7ffc290651e6"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{department_title}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="314" y="0" width="57" height="50" uuid="2a6389a9-863f-4e41-b828-407a980b74dd"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{section_title}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="371" y="0" width="48" height="50" uuid="de5e4d0c-2024-4a89-9096-61c545638c39"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{voice_limit}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="419" y="0" width="43" height="50" uuid="a77be6d8-5913-4d6f-94a1-ef9ee712e08d"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{data_amount}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="533" y="0" width="42" height="50" uuid="38a33dee-1e3c-40af-a39a-795bb902a167"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{reason_for_sim}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="462" y="0" width="48" height="50" uuid="d64a40a1-874b-4d26-b775-ff44c9beef68"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{approved_credit_limt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="510" y="0" width="23" height="50" uuid="dbcf5006-f868-4bdc-a309-70651ff3794c"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ISD}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="84" y="0" width="41" height="50" uuid="35d8fa41-458a-423a-bad5-806a57d23b9e"/>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+			</textField>
+			<image scaleImage="FillFrame" onErrorType="Blank">
+				<reportElement x="84" y="0" width="41" height="50" uuid="2b344b64-4683-4dfc-8f3b-28793743d42f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<imageExpression><![CDATA["https://hrms.waltonbd.com/"+$F{pic_url}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="66">
+			<staticText>
+				<reportElement x="0" y="45" width="99" height="20" uuid="44f2e1a4-6946-4e52-838c-9916d80d15d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prepared By]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="44" width="100" height="1" uuid="918595a4-7783-4c3b-b668-0b98d3278fb5"/>
+			</line>
+			<line>
+				<reportElement x="116" y="44" width="124" height="1" uuid="918595a4-7783-4c3b-b668-0b98d3278fb5"/>
+			</line>
+			<staticText>
+				<reportElement x="116" y="46" width="124" height="20" uuid="44f2e1a4-6946-4e52-838c-9916d80d15d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sim Card In-Charge]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="44" width="137" height="20" uuid="44f2e1a4-6946-4e52-838c-9916d80d15d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Head of Administration]]></text>
+			</staticText>
+			<line>
+				<reportElement x="260" y="42" width="139" height="1" uuid="918595a4-7783-4c3b-b668-0b98d3278fb5"/>
+			</line>
+			<staticText>
+				<reportElement x="419" y="44" width="145" height="20" uuid="44f2e1a4-6946-4e52-838c-9916d80d15d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Management Approval]]></text>
+			</staticText>
+			<line>
+				<reportElement x="419" y="43" width="145" height="1" uuid="918595a4-7783-4c3b-b668-0b98d3278fb5"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="13" width="278" height="14" uuid="e84c51f3-cd60-424b-acd6-b2be45131a29"/>
+				<box leftPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Design and developed by: Walton Digi-Tech Ind. Ltd.]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="556" y="10" width="16" height="17" uuid="048217bb-b442-4a29-86ec-7c87599fd836"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="428" y="10" width="128" height="17" uuid="120d3b4f-102c-4a8e-80d0-10a3c0a1a915">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="8" width="575" height="1" uuid="b946cf5b-56da-4a13-9f89-f83f9d8f3fac"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</summary>
+</jasperReport>

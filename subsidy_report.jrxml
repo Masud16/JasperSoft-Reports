@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="combo_report_sheet" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c98288a8-57b7-41b1-ac2b-0a6a6518506c">
+	<property name="ireport.zoom" value="2.657341500000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HRMS-TEST"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="317"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="677"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<parameter name="P_EMP_CODES" class="java.util.Collection">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_START_DATE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_END_DATE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_JOB_LOCATION_ID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_DESIGNATION_VIEW" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_HR_PRL_MST_ID" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_ALKP_EMP_CAT_ID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_OPERATING_UNIT_ID" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_ALKP_PRODUCT_GROUP_ID" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_ALL_ORG_MST_PRODUCT_ID" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_ALL_ORG_MST_DEPARTMENT_ID" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_ALL_ORG_MST_SECTION_ID" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_ALL_ORG_MST_SUB_SECTION_ID" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_ALL_ORG_MST_TEAM_ID" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_ALL_ORG_MST_SUB_TEAM_ID" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D://REPORTS//HRMS_REPORTS_sahee_mam_new//ALL_REPORTS//"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT P.EMP_CODE,
+         P.EMP_NAME,
+         CASE WHEN $P{P_DESIGNATION_VIEW} ='1' THEN (P.DESIGNATION) ELSE '##.##' END DESIGNATION,
+         P.Ou_TITLE,
+         P.PRODUCT_TITLE,
+         P.DEPARTMENT_TITLE,
+         NVL(P.SECTION_TITLE,P.DEPARTMENT_TITLE) SECTION_TITLE,
+         P.SUB_SECTION_TITLE,
+         (SELECT TITLE
+            FROM ALKP
+           WHERE ID = P.JOB_LOCATION_ID)
+            JOB_LOCATION,
+         COALESCE (P.PRL_ELMNT_FOOD_DEDUCTION, 0) FOOD_DEDUCTION,
+         COALESCE (P.PRL_ELMNT_SUBSIDY, 0) SUBSIDY_DEDUCTION,
+                COALESCE((SELECT SUM(M.SUBSIDISE)
+  FROM HR_CR_FOOD_MESS M, HR_CR_FOOD_EMP_LK L
+ WHERE M.ID = L.HR_CR_FOOD_MESS_ID_hr_cr_food_mess AND L.HR_CR_EMP_ID_hr_cr_emp = P.EMP_ID
+AND ( TO_DATE($P{P_START_DATE} ,'YYYY-MM-DD') BETWEEN L.START_DATE  AND COALESCE ( L.END_DATE,  TO_DATE($P{P_END_DATE} ,'YYYY-MM-DD'))  
+ AND  TO_DATE($P{P_START_DATE} ,'YYYY-MM-DD') BETWEEN  L.START_DATE AND COALESCE (L.END_DATE,  TO_DATE($P{P_END_DATE} ,'YYYY-MM-DD') ) )
+ ),0) FOOD_SUBSIDIES,
+  ((COALESCE((SELECT SUM(M.SUBSIDISE)
+  FROM HR_CR_FOOD_MESS M, HR_CR_FOOD_EMP_LK L
+ WHERE M.ID = L.HR_CR_FOOD_MESS_ID_hr_cr_food_mess AND L.HR_CR_EMP_ID_hr_cr_emp = P.EMP_ID
+AND ( TO_DATE($P{P_START_DATE} ,'YYYY-MM-DD') BETWEEN L.START_DATE  AND COALESCE ( L.END_DATE,  TO_DATE($P{P_END_DATE} ,'YYYY-MM-DD'))  
+ AND  TO_DATE($P{P_START_DATE} ,'YYYY-MM-DD') BETWEEN  L.START_DATE AND COALESCE (L.END_DATE,  TO_DATE($P{P_END_DATE} ,'YYYY-MM-DD') ) )
+ ),0))-(COALESCE (P.PRL_ELMNT_SUBSIDY, 0))) d_balance
+    FROM PRL_SAL_TBL P
+   WHERE     1 = 1
+    AND ($P{P_HR_PRL_MST_ID} is null or P.HR_PRL_MST_ID = $P{P_HR_PRL_MST_ID})
+         AND P.FROM_DATE =TO_DATE($P{P_START_DATE} ,'YYYY-MM-DD') 
+         AND P.TO_DATE = TO_DATE($P{P_END_DATE} ,'YYYY-MM-DD') 
+       AND  ($P{P_ALKP_EMP_CAT_ID} is null or P.ALKP_EMP_CAT_ID=$P{P_ALKP_EMP_CAT_ID})
+ AND  $X{IN,P.emp_code, P_EMP_CODES}
+AND  ($P{P_JOB_LOCATION_ID} is null or P.JOB_LOCATION_ID=$P{P_JOB_LOCATION_ID}) 
+AND COALESCE (PRL_ELMNT_FOOD_DEDUCTION, 0)>0
+ORDER BY 4,6,7,8,
+         (CASE
+             WHEN P.EMP_CODE LIKE '%A-%'
+             THEN
+             (REPLACE (P.EMP_CODE, 'A-', ''))
+             WHEN P.EMP_CODE LIKE '%D-%'
+             THEN
+                 (REPLACE (P.EMP_CODE, 'D-', ''))
+             WHEN P.EMP_CODE LIKE '%C-%'
+             THEN
+                 (REPLACE (P.EMP_CODE, 'C-', ''))
+             ELSE
+                 (P.EMP_CODE)
+          END)]]>
+	</queryString>
+	<field name="emp_code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_code"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="emp_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="emp_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="emp_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="designation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="designation"/>
+		<property name="com.jaspersoft.studio.field.label" value="designation"/>
+	</field>
+	<field name="ou_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ou_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="ou_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="product_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="product_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="product_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="department_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="department_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="section_title"/>
+	</field>
+	<field name="sub_section_title" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_section_title"/>
+		<property name="com.jaspersoft.studio.field.label" value="sub_section_title"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="prl_sal_tbl"/>
+	</field>
+	<field name="job_location" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="job_location"/>
+		<property name="com.jaspersoft.studio.field.label" value="job_location"/>
+	</field>
+	<field name="food_deduction" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="food_deduction"/>
+		<property name="com.jaspersoft.studio.field.label" value="food_deduction"/>
+	</field>
+	<field name="subsidy_deduction" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="subsidy_deduction"/>
+		<property name="com.jaspersoft.studio.field.label" value="subsidy_deduction"/>
+	</field>
+	<field name="food_subsidies" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="food_subsidies"/>
+		<property name="com.jaspersoft.studio.field.label" value="food_subsidies"/>
+	</field>
+	<field name="d_balance" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="d_balance"/>
+		<property name="com.jaspersoft.studio.field.label" value="d_balance"/>
+	</field>
+	<variable name="D_AMNT_1" class="java.math.BigDecimal" resetType="Group" resetGroup="department" calculation="Sum">
+		<variableExpression><![CDATA[$F{food_deduction}]]></variableExpression>
+	</variable>
+	<variable name="DEPT_EMP_COUNT" class="java.lang.Integer" resetType="Group" resetGroup="department" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{emp_name}]]></variableExpression>
+	</variable>
+	<variable name="T_AMNT_D" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{food_deduction}]]></variableExpression>
+	</variable>
+	<variable name="S_AMNT_1" class="java.math.BigDecimal" resetType="Group" resetGroup="department" calculation="Sum">
+		<variableExpression><![CDATA[$F{food_subsidies}]]></variableExpression>
+	</variable>
+	<variable name="A_AMNT_D" class="java.math.BigDecimal" resetType="Group" resetGroup="department" calculation="Sum">
+		<variableExpression><![CDATA[$F{subsidy_deduction}]]></variableExpression>
+	</variable>
+	<variable name="D_BAL_1" class="java.math.BigDecimal" resetType="Group" resetGroup="department" calculation="Sum">
+		<variableExpression><![CDATA[$F{d_balance}]]></variableExpression>
+	</variable>
+	<variable name="S_AMNT_T" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{food_subsidies}]]></variableExpression>
+	</variable>
+	<variable name="A_AMNT_T" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{subsidy_deduction}]]></variableExpression>
+	</variable>
+	<variable name="T_BAL" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{d_balance}]]></variableExpression>
+	</variable>
+	<variable name="T_EMP_COUNT" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{emp_code}]]></variableExpression>
+	</variable>
+	<variable name="SUB_SEC_EMP_COUNT" class="java.lang.Integer" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{emp_name}]]></variableExpression>
+	</variable>
+	<variable name="SEC_EMP_COUNT" class="java.lang.Integer" resetType="Group" resetGroup="SECTION_TITLE" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{emp_name}]]></variableExpression>
+	</variable>
+	<variable name="D_AMNT_3" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{food_deduction}]]></variableExpression>
+	</variable>
+	<variable name="S_AMNT_3" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{food_subsidies}]]></variableExpression>
+	</variable>
+	<variable name="A_AMNT_D_3" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{subsidy_deduction}]]></variableExpression>
+	</variable>
+	<variable name="D_BAL_3" class="java.math.BigDecimal" resetType="Group" resetGroup="SUB_SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{d_balance}]]></variableExpression>
+	</variable>
+	<variable name="D_AMNT_2" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{food_deduction}]]></variableExpression>
+	</variable>
+	<variable name="S_AMNT_2" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{food_subsidies}]]></variableExpression>
+	</variable>
+	<variable name="A_AMNT_D_2" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{subsidy_deduction}]]></variableExpression>
+	</variable>
+	<variable name="D_BAL_2" class="java.math.BigDecimal" resetType="Group" resetGroup="SECTION_TITLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{d_balance}]]></variableExpression>
+	</variable>
+	<group name="department">
+		<groupExpression><![CDATA[$F{department_title}]]></groupExpression>
+		<groupHeader>
+			<band height="17">
+				<textField>
+					<reportElement x="0" y="1" width="555" height="16" uuid="4fa9573b-8821-429d-a4d5-791c2a619fa9"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Department : "+$F{department_title}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="16">
+				<textField pattern="">
+					<reportElement x="355" y="0" width="53" height="16" uuid="6b507f9c-4aa8-4191-98c1-dd662cec0580"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{D_AMNT_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="355" height="16" uuid="366e771b-5425-43d3-b034-a6b60f08d51f"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{department_title}+" Department Total (Total Person :"+$V{DEPT_EMP_COUNT}+")"]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="408" y="0" width="45" height="16" uuid="765d1ba9-3765-4bb4-884a-6768853b8784"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{S_AMNT_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="453" y="0" width="51" height="16" uuid="26431890-df6b-40e5-99a3-f53358aafb5f"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{A_AMNT_D}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="504" y="0" width="51" height="16" uuid="d37fd6f5-c840-47fe-b9da-e02d26f3421f"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{D_BAL_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="SECTION_TITLE">
+		<groupExpression><![CDATA[$F{section_title}]]></groupExpression>
+		<groupHeader>
+			<band height="13">
+				<textField>
+					<reportElement x="-1" y="0" width="556" height="13" uuid="645dabcc-2c3e-4f86-bd3c-4fafb0fbc9ad"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Section: "+(($F{section_title} != null) ? $F{section_title} : $F{department_title})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="14">
+				<textField pattern="">
+					<reportElement x="504" y="0" width="51" height="14" uuid="0c81f219-4e09-49c0-bdc2-e581b93b80ac"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{D_BAL_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="408" y="0" width="45" height="14" uuid="ab62c032-1c76-4dd7-a2ff-d8367f6d0aa2"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{S_AMNT_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="355" y="0" width="53" height="14" uuid="3338c477-9ad3-46e2-9b8b-e6434c14757b"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{D_AMNT_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="453" y="0" width="51" height="14" uuid="7caccdaf-d498-4a28-9876-85f650baf054"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{A_AMNT_D_2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="355" height="14" uuid="c8f8c42f-0b95-474e-ad3a-b7852dd6aff7"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($F{section_title}!= null) ? $F{section_title} : $F{department_title})+" Section (Total Person :"+$V{SEC_EMP_COUNT}+")"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="SUB_SECTION_TITLE">
+		<groupExpression><![CDATA[$F{sub_section_title}]]></groupExpression>
+		<groupHeader>
+			<band height="13">
+				<textField>
+					<reportElement x="-1" y="0" width="556" height="13" uuid="ec1dbf29-48b1-43bd-92a6-82bdc7fdc066"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Sub Section: "+(($F{sub_section_title} != null) ? $F{sub_section_title} : $F{section_title})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="14">
+				<textField pattern="">
+					<reportElement x="453" y="0" width="51" height="14" uuid="bcde4ac3-185c-4347-861e-519fa74b5480"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{A_AMNT_D_3}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="355" height="14" uuid="56730bca-23e6-4c63-aa1b-1ac66cace6e4"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($F{sub_section_title} != null) ? $F{sub_section_title} : $F{section_title})+" Sub Section (Total Person :"+$V{SUB_SEC_EMP_COUNT}+")"]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="408" y="0" width="45" height="14" uuid="d2273181-b62f-40dc-8885-0368da4689b0"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{S_AMNT_3}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="355" y="0" width="53" height="14" uuid="ed6d7b4e-416d-4ee2-b7d7-6e1a2cc27a73"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{D_AMNT_3}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="504" y="0" width="51" height="14" uuid="4619d3c8-d10b-4901-8832-6e0dc65015ee"/>
+					<box>
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.25"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{D_BAL_3}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="37" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" x="0" y="20" width="555" height="17" uuid="a8884290-32a5-41a2-9438-446c5dbdd6fa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Subsidy for The Month of "+$P{P_START_DATE}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="18" width="555" height="1" uuid="846058ca-d215-4559-956f-b225e3e4af39"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<subreport>
+				<reportElement x="-20" y="2" width="200" height="15" uuid="4d35eeed-5ad0-4552-8e40-fba4a6c6aafa"/>
+				<subreportParameter name="P_EMP_CODES">
+					<subreportParameterExpression><![CDATA[$P{P_EMP_CODES}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"subheader_2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13" splitType="Stretch">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="0" y="2" width="412" height="9" uuid="ccd64f18-5ce5-4b6b-af8a-cfb75bc14766"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Print Date and Time: "+(new SimpleDateFormat("EEEEE, d MMMMM yyyy hh:mm:ss aaa")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="35" y="0" width="55" height="25" forecolor="#080707" backcolor="#D1D0CE" uuid="a89e0849-d484-4982-9371-7e03af64aa5f"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="90" y="0" width="112" height="25" forecolor="#080707" backcolor="#D1D0CE" uuid="c191ad44-f22b-47ad-bb8e-e769229999f7"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Employee Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="202" y="0" width="85" height="25" forecolor="#080707" backcolor="#D1D0CE" uuid="7819d70a-3d6c-4899-9043-9d4abcd279ea"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Designation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="355" y="0" width="53" height="25" forecolor="#080707" backcolor="#D1D0CE" uuid="f68c1155-db4d-4928-9604-9a39257b1a64"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Deducted Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="35" height="25" forecolor="#080707" backcolor="#D1D0CE" uuid="6f3f6974-ebf0-4bdb-bc29-d65cc47a42e1"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[SL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="408" y="0" width="45" height="25" forecolor="#080707" backcolor="#D1D0CE" uuid="3b5fa7ae-5928-43d3-8438-1ff52f7119cb"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Subsidy Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="453" y="0" width="51" height="25" forecolor="#080707" backcolor="#D1D0CE" uuid="0a505dfe-76ef-45ea-a9ab-a66fd3d4076b"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Adjust
+Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="504" y="0" width="51" height="25" forecolor="#080707" backcolor="#D1D0CE" uuid="9a5c3503-d136-4fd3-8b40-8262653c59b2"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Net Subsidy]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="287" y="0" width="68" height="25" forecolor="#080707" backcolor="#D1D0CE" uuid="90319a4b-819c-4599-92ad-8f04934eaec0"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Product]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="34" height="20" uuid="c649f37f-4af3-4262-b7f6-31fed8aa1f16"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="89" y="0" width="113" height="20" uuid="3fa81165-1f0d-4c82-9bb5-407df1d22ddb"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="202" y="0" width="85" height="20" uuid="9b76aab9-a499-4ffa-b465-d8657db94db8"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="355" y="0" width="53" height="20" uuid="2fa5469b-082f-41bf-9a60-5a627a2946f1"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{food_deduction}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="0" width="55" height="20" uuid="7efabbbd-b13f-41b9-8267-9db49aee96e0"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_code}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="408" y="0" width="45" height="20" uuid="28a85b18-9864-4254-8efd-c9d9cae71d7f"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{food_subsidies}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="453" y="0" width="51" height="20" uuid="4d1ee4fe-f987-4625-a3d4-e07167bd62bf"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subsidy_deduction}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="504" y="0" width="51" height="20" uuid="76e8fd94-9b5d-401c-9f08-486ae76ffd77"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d_balance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="287" y="0" width="68" height="20" uuid="e4458082-2425-42ef-9dad-4fd6ac5c4a4c"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{product_title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="19">
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="5" width="278" height="14" uuid="7a225d99-09c1-4c99-880d-9688ac541b2f"/>
+				<box leftPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Design and developed by: Walton Digi-Tech Ind. Ltd.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="411" y="2" width="128" height="17" uuid="cb9b086d-46eb-40c5-88d3-6a9619c18f68">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="539" y="2" width="16" height="17" uuid="b521c5fa-d68a-44d2-9d63-177845919ec7"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="2" width="555" height="1" uuid="7d591347-3284-4806-a15a-78003577beb3"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="22" splitType="Stretch">
+			<textField pattern="###0">
+				<reportElement mode="Opaque" x="355" y="0" width="53" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="f80eb582-ae2d-44a4-9018-3de6cfd87f3b"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{T_AMNT_D}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement mode="Opaque" x="408" y="0" width="44" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="88064625-84b7-4741-9d9c-270d6c654c6c"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{S_AMNT_T}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement mode="Opaque" x="452" y="0" width="52" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="02cab4eb-5353-44c9-920a-e710138c6f58"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{A_AMNT_T}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement mode="Opaque" x="504" y="0" width="51" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="53197b6d-527f-4810-a395-aa7e14170a2e"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{T_BAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="355" height="22" forecolor="#000000" backcolor="#FFFFFF" uuid="01888b40-4ea0-479b-a9cb-64f961c107d4"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total Employee : ("+$V{T_EMP_COUNT}+")                                                       TOTAL :"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
